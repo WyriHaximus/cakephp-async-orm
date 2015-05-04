@@ -1,4 +1,6 @@
 {
+  "minimum-stability": "dev",
+  "prefer-stable": true,
     "name": "wyrihaximus/cake-async-orm",
     "license": "MIT",
     "authors": [

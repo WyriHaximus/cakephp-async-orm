@@ -1,17 +1,17 @@
 {
   "minimum-stability": "dev",
   "prefer-stable": true,
-    "name": "wyrihaximus/cake-async-orm",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Cees-Jan Kiewiet",
-            "email": "ceesjank@gmail.com"
-        }
-    ],
-    "require": {
-        "wyrihaximus/react-child-process-pool": "dev-master"
-    },
+  "name": "wyrihaximus/cake-async-orm",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Cees-Jan Kiewiet",
+      "email": "ceesjank@gmail.com"
+    }
+  ],
+  "require": {
+    "wyrihaximus/react-child-process-pool": "dev-master"
+  },
   "autoload": {
     "psr-4": {
       "WyriHaximus\\React\\Cake\\Orm\\": "src/"

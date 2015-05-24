@@ -2,6 +2,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "name": "wyrihaximus/cake-async-orm",
+  "type":"cakephp-plugin",
   "license": "MIT",
   "authors": [
     {

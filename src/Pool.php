@@ -16,7 +16,7 @@ class Pool
     protected function __construct(LoopInterface $loop)
     {
         $this->loop = $loop;
-        $this->pool = new FixedPool(new Process('exec php ' . ROOT . '/bin/cake.php WyriHaximus/React/Cake/Orm.worker run -q'), $this->loop, 2);
+        $this->pool = new FixedPool(new Process('exec php ' . ROOT . '/bin/cake.php WyriHaximus/React/Cake/Orm.worker run -q'), $this->loop, 3);
     }
 
     public static function getInstance(LoopInterface $loop = null)

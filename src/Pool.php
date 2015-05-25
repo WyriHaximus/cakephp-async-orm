@@ -5,8 +5,8 @@ namespace WyriHaximus\React\Cake\Orm;
 use React\ChildProcess\Process;
 use React\EventLoop\LoopInterface;
 use WyriHaximus\React\ChildProcess\Messenger\Messages\Call;
-use WyriHaximus\React\ChildProcess\Messenger\Messages\Payload;
-use WyriHaximus\React\ChildProcess\Pool\FixedPool;
+use WyriHaximus\React\ChildProcess\Messenger\Messages\Factory;
+use WyriHaximus\React\ChildProcess\Pool\FlexiblePool;
 
 class Pool
 {
@@ -16,7 +16,7 @@ class Pool
     protected function __construct(LoopInterface $loop)
     {
         $this->loop = $loop;
-        $this->pool = new FixedPool(new Process('exec php ' . ROOT . '/bin/cake.php WyriHaximus/React/Cake/Orm.worker run -q'), $this->loop, 3);
+        $this->pool = new FlexiblePool(new Process('exec php ' . ROOT . '/bin/cake.php WyriHaximus/React/Cake/Orm.worker run -q'), $this->loop, []);
     }
 
     public static function getInstance(LoopInterface $loop = null)
@@ -31,10 +31,12 @@ class Pool
 
     public function call($tableName, $function, array $arguments)
     {
-        return $this->pool->rpc(new Call('table.call', new Payload([
+        return $this->pool->rpc(Factory::rpc('table.call', [
             'function' => $function,
             'table' => $tableName,
             'arguments' => serialize($arguments),
-        ])));
+        ]))->then(function ($result) {
+            return \React\Promise\resolve($result['result']);
+        });
     }
 }

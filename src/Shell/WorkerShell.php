@@ -5,8 +5,10 @@ namespace WyriHaximus\React\Cake\Orm\Shell;
 use Cake\Console\Shell;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
-use React\EventLoop\Factory;
-use WyriHaximus\React\ChildProcess\Messenger\Messages\Invoke;
+use React\EventLoop\Factory as LoopFactory;
+use React\Promise\Deferred;
+use WyriHaximus\React\ChildProcess\Messenger\Factory;
+use WyriHaximus\React\ChildProcess\Messenger\Messages\Payload;
 use WyriHaximus\React\ChildProcess\Messenger\Recipient;
 
 class WorkerShell extends Shell
@@ -18,20 +20,18 @@ class WorkerShell extends Shell
 
     public function run()
     {
-        $this->loop = Factory::create();
-        $recipient = new Recipient($this->loop);
+        $this->loop = LoopFactory::create();
+        $recipient = Factory::child($this->loop);
 
-        $recipient->registerRpc('table.call', function (Invoke $invoke) {
-            $this->handleTableCall($invoke);
+        $recipient->registerRpc('table.call', function (Payload $payload, Deferred $deferred) {
+            $this->handleTableCall($payload, $deferred);
         });
 
         $this->loop->run();
     }
 
-    protected function handleTableCall(Invoke $invoke)
+    protected function handleTableCall(Payload $payload, Deferred $deferred)
     {
-        $payload = $invoke->getPayload();
-
         $result = call_user_func_array([
             TableRegistry::get($payload['table']),
             $payload['function'],
@@ -41,6 +41,8 @@ class WorkerShell extends Shell
             $result = $result->all();
         }
 
-        $invoke->getDeferred()->resolve(serialize($result));
+        $deferred->resolve([
+            'result' => serialize($result),
+        ]);
     }
 }

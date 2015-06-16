@@ -17,7 +17,7 @@ class Pool
     protected function __construct(LoopInterface $loop)
     {
         $this->loop = $loop;
-        $this->pool = new FlexiblePool(new Process('exec php ' . ROOT . '/bin/cake.php WyriHaximus/React/Cake/Orm.worker run -q'), $this->loop, [
+        $this->pool = new FlexiblePool(new Process(Configure::write('WyriHaximus.React.Cake.Orm.Process')), $this->loop, [
             'processOptions' => Configure::read('WyriHaximus.React.Cake.Orm.Line'),
         ]);
     }

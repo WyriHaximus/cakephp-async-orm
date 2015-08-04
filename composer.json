@@ -11,7 +11,10 @@
     }
   ],
   "require": {
-    "wyrihaximus/react-child-process-pool": "dev-master"
+    "php": ">=5.5.0",
+    "cakephp/cakephp": "^3.0.0",
+    "wyrihaximus/react-child-process-pool": "^1.0.0",
+    "doctrine/annotations": "^1.2"
   },
   "autoload": {
     "psr-4": {

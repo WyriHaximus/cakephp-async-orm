@@ -44,7 +44,8 @@ class AsyncTable
                 $this->hasNoMethodAnnotation($function)
             ) ||
             strpos(strtolower($function), 'find') === 0 ||
-            strpos(strtolower($function), 'fetch') === 0
+            strpos(strtolower($function), 'fetch') === 0 ||
+            strpos(strtolower($function), 'retrieve') === 0
         ) {
             return $this->callAsync($function, $arguments);
         }

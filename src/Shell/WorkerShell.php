@@ -31,6 +31,10 @@ class WorkerShell extends Shell
         $this->loop->run();
     }
 
+    /**
+     * @param Payload $payload
+     * @param Deferred $deferred
+     */
     protected function handleTableCall(Payload $payload, Deferred $deferred)
     {
         $result = call_user_func_array([

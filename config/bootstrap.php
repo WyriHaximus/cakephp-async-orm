@@ -1,6 +1,7 @@
 <?php
 
 use Cake\Core\Configure;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
 if (!Configure::check('WyriHaximus.React.Cake.Orm.Line')) {
     Configure::write('WyriHaximus.React.Cake.Orm.Line', [
@@ -14,3 +15,7 @@ if (!Configure::check('WyriHaximus.React.Cake.Orm.Line')) {
 if (!Configure::check('WyriHaximus.React.Cake.Orm.Process')) {
     Configure::write('WyriHaximus.React.Cake.Orm.Process', 'exec php ' . ROOT . '/bin/cake.php WyriHaximus/React/Cake/Orm.worker run -q');
 }
+
+AnnotationRegistry::registerLoader(function ($class) {
+    return class_exists($class);
+});

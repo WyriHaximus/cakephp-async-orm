@@ -23,6 +23,16 @@ class AsyncTable
     protected $tableName;
 
     /**
+     * @var AnnotationReader
+     */
+    protected $annotationReader;
+
+    /**
+     * @var \ReflectionClass
+     */
+    protected $reflectionClass;
+
+    /**
      * @param Pool $pool
      * @param string $tableName
      */

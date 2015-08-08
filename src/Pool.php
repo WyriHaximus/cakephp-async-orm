@@ -44,7 +44,7 @@ class Pool
 
     /**
      * @param LoopInterface $loop
-     * @return static
+     * @return Pool
      * @throws \Exception
      */
     public static function getInstance(LoopInterface $loop = null)

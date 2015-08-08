@@ -34,6 +34,14 @@ class ScreenshotsShell extends Shell
 }
 ```
 
+# (A)sync detection
+
+In order to only run the necessary calls to the table object on the pool several detection strategies have been put in place, namely:
+
+* Docblock return type, if it matches `Cake\ORM\Query` it will ignore any annotations or function names
+* Annotations Async and Sync can be used class wide but overwritten on the method level
+* Function name detection, `fetch*`, `find*`, and `retrieve*` will be async and the rest sync unless overwritten by annotations or return type
+
 ## License ##
 
 Copyright 2015 [Cees-Jan Kiewiet](http://wyrihaximus.net/)

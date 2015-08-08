@@ -33,7 +33,7 @@ class Pool
         $this->loop = $loop;
         $this->pool = new FlexiblePool(
             new Process(
-                Configure::write('WyriHaximus.React.Cake.Orm.Process')
+                Configure::read('WyriHaximus.React.Cake.Orm.Process')
             ),
             $this->loop,
             [

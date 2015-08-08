@@ -45,11 +45,15 @@ class Pool
     /**
      * @param LoopInterface $loop
      * @return static
+     * @throws \Exception
      */
     public static function getInstance(LoopInterface $loop = null)
     {
         static $instance = null;
         if (null === $instance) {
+            if (null === $loop) {
+                throw new \Exception('Missing event loop');
+            }
             $instance = new static($loop);
         }
 

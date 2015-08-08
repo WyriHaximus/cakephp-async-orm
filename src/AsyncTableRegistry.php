@@ -2,6 +2,7 @@
 
 namespace WyriHaximus\React\Cake\Orm;
 
+use Cake\Core\App;
 use React\EventLoop\LoopInterface;
 
 class AsyncTableRegistry
@@ -30,7 +31,11 @@ class AsyncTableRegistry
             return static::$tables[$tableName];
         }
 
-        static::$tables[$tableName] = new AsyncTable(Pool::getInstance(), $tableName);
+        static::$tables[$tableName] = new AsyncTable(
+            Pool::getInstance(),
+            $tableName,
+            App::className($tableName, 'Model/Table', 'Table')
+        );
         return static::$tables[$tableName];
     }
 }

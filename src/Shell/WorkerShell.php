@@ -15,7 +15,7 @@ use WyriHaximus\React\ChildProcess\Messenger\Recipient;
 class WorkerShell extends Shell
 {
     /**
-     * @var LoopInterface
+     * @var \React\EventLoop\LoopInterface
      */
     protected $loop;
 

@@ -7,10 +7,8 @@ use Cake\Core\Configure;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use React\EventLoop\Factory as LoopFactory;
-use React\Promise\Deferred;
 use WyriHaximus\React\ChildProcess\Messenger\Factory;
 use WyriHaximus\React\ChildProcess\Messenger\Messages\Payload;
-use WyriHaximus\React\ChildProcess\Messenger\Recipient;
 
 class WorkerShell extends Shell
 {
@@ -24,8 +22,8 @@ class WorkerShell extends Shell
         $this->loop = LoopFactory::create();
         $recipient = Factory::child($this->loop, Configure::read('WyriHaximus.React.Cake.Orm.Line'));
 
-        $recipient->registerRpc('table.call', function (Payload $payload, Deferred $deferred) {
-            $this->handleTableCall($payload, $deferred);
+        $recipient->registerRpc('table.call', function (Payload $payload) {
+            return $this->handleTableCall($payload);
         });
 
         $this->loop->run();
@@ -33,9 +31,9 @@ class WorkerShell extends Shell
 
     /**
      * @param Payload $payload
-     * @param Deferred $deferred
+     * @return \React\Promise\PromiseInterface
      */
-    protected function handleTableCall(Payload $payload, Deferred $deferred)
+    protected function handleTableCall(Payload $payload)
     {
         $result = call_user_func_array([
             TableRegistry::get($payload['table']),
@@ -46,7 +44,7 @@ class WorkerShell extends Shell
             $result = $result->all();
         }
 
-        $deferred->resolve([
+        return \React\Promise\resolve([
             'result' => serialize($result),
         ]);
     }

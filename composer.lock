@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "89508a4378b2fe961528632b915b1a98",
+    "hash": "b7dc6f9a4b2181994e21f2bcef4623b1",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -986,16 +986,16 @@
         },
         {
             "name": "wyrihaximus/react-child-process-messenger",
-            "version": "1.0.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/reactphp-child-process-messenger.git",
-                "reference": "d77f3f6954963a50b5a13f5171e87001ecf5002e"
+                "reference": "ac7601d723b0c1a4d9fc78a0c7d3d5d1043d656e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/reactphp-child-process-messenger/zipball/d77f3f6954963a50b5a13f5171e87001ecf5002e",
-                "reference": "d77f3f6954963a50b5a13f5171e87001ecf5002e",
+                "url": "https://api.github.com/repos/WyriHaximus/reactphp-child-process-messenger/zipball/ac7601d723b0c1a4d9fc78a0c7d3d5d1043d656e",
+                "reference": "ac7601d723b0c1a4d9fc78a0c7d3d5d1043d656e",
                 "shasum": ""
             },
             "require": {
@@ -1029,26 +1029,26 @@
                 }
             ],
             "description": "Messenger decorator for react/child-process",
-            "time": "2015-08-01 18:50:38"
+            "time": "2015-08-12 20:51:25"
         },
         {
             "name": "wyrihaximus/react-child-process-pool",
-            "version": "1.0.0-alpha1",
+            "version": "1.0.0-alpha2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/reactphp-child-process-pool.git",
-                "reference": "fe369c1775cf056309f0261b1c7160294056bc5b"
+                "reference": "a30e0bde5b4df0188d47280051a33d6aaf742805"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/reactphp-child-process-pool/zipball/fe369c1775cf056309f0261b1c7160294056bc5b",
-                "reference": "fe369c1775cf056309f0261b1c7160294056bc5b",
+                "url": "https://api.github.com/repos/WyriHaximus/reactphp-child-process-pool/zipball/a30e0bde5b4df0188d47280051a33d6aaf742805",
+                "reference": "a30e0bde5b4df0188d47280051a33d6aaf742805",
                 "shasum": ""
             },
             "require": {
                 "evenement/evenement": "^2.0",
                 "php": ">=5.5.0",
-                "wyrihaximus/react-child-process-messenger": "^1.0",
+                "wyrihaximus/react-child-process-messenger": "^2.0",
                 "wyrihaximus/ticking-promise": "^1.5"
             },
             "require-dev": {
@@ -1073,7 +1073,7 @@
                     "email": "ceesjank@gmail.com"
                 }
             ],
-            "time": "2015-08-02 20:15:16"
+            "time": "2015-08-12 21:42:10"
         },
         {
             "name": "wyrihaximus/ticking-promise",

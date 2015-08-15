@@ -79,7 +79,11 @@ class AsyncTable
     protected function callAsync($function, array $arguments = [])
     {
         $unSerialize = function ($input) {
-            return unserialize($input);
+            if (is_string($input)) {
+                return unserialize($input);
+            }
+
+            return $input;
         };
         return $this->
             pool->

@@ -6,7 +6,6 @@ use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Doctrine\Common\Annotations\AnnotationReader;
 use phpDocumentor\Reflection\DocBlock;
-use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlockFactory;
 use WyriHaximus\React\Cake\Orm\Annotations\Async;
 use WyriHaximus\React\Cake\Orm\Annotations\Sync;
@@ -119,7 +118,7 @@ class AsyncTable
             return false;
         }
 
-        $docBlock = new DocBlock($docBlockContents);
+        $docBlock = $this->getDocBlock($docBlockContents);
         foreach ($docBlock->getTags() as $tag) {
             if ($tag->getName() === 'return' && ltrim($tag->getType(), '\\') == Query::class) {
                 return true;
@@ -127,5 +126,14 @@ class AsyncTable
         }
 
         return false;
+    }
+
+    protected function getDocBlock($docBlockContents)
+    {
+        if (class_exists('phpDocumentor\Reflection\DocBlockFactory')) {
+            return DocBlockFactory::createInstance()->create($docBlockContents);
+        }
+
+        return new DocBlock($docBlockContents);
     }
 }

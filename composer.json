@@ -15,7 +15,7 @@
     "cakephp/cakephp": "^3.0.0",
     "wyrihaximus/react-child-process-pool": "^1.0.0-alpha2",
     "doctrine/annotations": "^1.2",
-    "phpdocumentor/reflection-docblock": "^3.0@dev"
+    "phpdocumentor/reflection-docblock": "^2.0|^3.0@dev"
   },
   "require-dev": {
     "phpunit/phpunit": "^4.0",

@@ -121,7 +121,7 @@ class AsyncTable
 
         $docBlock = new DocBlock($docBlockContents);
         foreach ($docBlock->getTags() as $tag) {
-            if ($tag instanceof Return_ && ltrim($tag->getType(), '\\') == Query::class) {
+            if ($tag->getName() === 'return' && ltrim($tag->getType(), '\\') == Query::class) {
                 return true;
             }
         }

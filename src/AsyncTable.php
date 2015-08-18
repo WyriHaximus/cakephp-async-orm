@@ -5,6 +5,7 @@ namespace WyriHaximus\React\Cake\Orm;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Doctrine\Common\Annotations\AnnotationReader;
+use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlockFactory;
 use WyriHaximus\React\Cake\Orm\Annotations\Async;
@@ -118,7 +119,7 @@ class AsyncTable
             return false;
         }
 
-        $docBlock = DocBlockFactory::createInstance()->create($docBlockContents);
+        $docBlock = new DocBlock($docBlockContents);
         foreach ($docBlock->getTags() as $tag) {
             if ($tag instanceof Return_ && ltrim($tag->getType(), '\\') == Query::class) {
                 return true;

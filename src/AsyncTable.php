@@ -53,6 +53,7 @@ class AsyncTable
                 $this->hasClassAnnotation(Async::class) &&
                 $this->hasNoMethodAnnotation($function)
             ) ||
+            strpos(strtolower($function), 'save') === 0 ||
             strpos(strtolower($function), 'find') === 0 ||
             strpos(strtolower($function), 'fetch') === 0 ||
             strpos(strtolower($function), 'retrieve') === 0

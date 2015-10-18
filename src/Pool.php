@@ -8,12 +8,13 @@ use React\EventLoop\LoopInterface;
 use WyriHaximus\React\ChildProcess\Messenger\Messages\Call;
 use WyriHaximus\React\ChildProcess\Messenger\Messages\Factory;
 use WyriHaximus\React\ChildProcess\Pool\FlexiblePool;
+use WyriHaximus\React\ChildProcess\Pool\PoolUtilizerInterface;
 
 /**
  * Class Pool
  * @package WyriHaximus\React\Cake\Orm
  */
-class Pool
+class Pool implements PoolUtilizerInterface
 {
     /**
      * @var LoopInterface
@@ -75,5 +76,13 @@ class Pool
         ]))->then(function ($result) {
             return \React\Promise\resolve($result['result']);
         });
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function info()
+    {
+        $this->pool->info();
     }
 }

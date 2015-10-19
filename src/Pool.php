@@ -83,6 +83,6 @@ class Pool implements PoolUtilizerInterface
      */
     public function info()
     {
-        $this->pool->info();
+        return $this->pool->info();
     }
 }

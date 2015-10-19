@@ -40,7 +40,7 @@ class AsyncTableRegistry implements PoolUtilizerInterface
         return static::$tables[$tableName];
     }
 
-    public function getInstance()
+    public static function getInstance()
     {
         static $instance = null;
         if (null === $instance) {

@@ -66,10 +66,14 @@ class AsyncTable
 
     protected function callSync($function, array $arguments = [])
     {
+        $table = TableRegistry::get($this->tableName);
+        if (isset(class_uses($table)[TableRegistryTrait::class])) {
+            $table->setRegistry(AsyncTableRegistry::class);
+        }
         return \React\Promise\resolve(
             call_user_func_array(
                 [
-                    TableRegistry::get($this->tableName),
+                    $table,
                     $function
                 ],
                 $arguments

@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9b34d5e1aa00a91d80d9fd06b9da0d99",
+    "hash": "acf4ddf9b8b03737cf2b5f124f758dc4",
+    "content-hash": "24365a322f08eae2914034b1205ecb6c",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -437,16 +438,16 @@
         },
         {
             "name": "indigophp/hash-compat",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/indigophp/hash-compat.git",
-                "reference": "c77b71b729c449593f5b0442944a5af6b9fa1ebb"
+                "reference": "43a19f42093a0cd2d11874dff9d891027fc42214"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/indigophp/hash-compat/zipball/c77b71b729c449593f5b0442944a5af6b9fa1ebb",
-                "reference": "c77b71b729c449593f5b0442944a5af6b9fa1ebb",
+                "url": "https://api.github.com/repos/indigophp/hash-compat/zipball/43a19f42093a0cd2d11874dff9d891027fc42214",
+                "reference": "43a19f42093a0cd2d11874dff9d891027fc42214",
                 "shasum": ""
             },
             "require": {
@@ -458,7 +459,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -484,7 +485,7 @@
                 "hash_equals",
                 "hash_pbkdf2"
             ],
-            "time": "2015-02-22 01:15:38"
+            "time": "2015-08-22 07:03:35"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -791,29 +792,29 @@
         },
         {
             "name": "react/stream",
-            "version": "v0.4.2",
+            "version": "v0.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/stream.git",
-                "reference": "acc7a5fec02e0aea674560e1d13c40ed0c8c5465"
+                "reference": "305b2328d2a2e157bc13b61a0f5c6e41b666b188"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/stream/zipball/acc7a5fec02e0aea674560e1d13c40ed0c8c5465",
-                "reference": "acc7a5fec02e0aea674560e1d13c40ed0c8c5465",
+                "url": "https://api.github.com/repos/reactphp/stream/zipball/305b2328d2a2e157bc13b61a0f5c6e41b666b188",
+                "reference": "305b2328d2a2e157bc13b61a0f5c6e41b666b188",
                 "shasum": ""
             },
             "require": {
-                "evenement/evenement": "~2.0",
-                "php": ">=5.4.0"
+                "evenement/evenement": "^2.0|^1.0",
+                "php": ">=5.3.8"
             },
             "require-dev": {
-                "react/event-loop": "0.4.*",
-                "react/promise": "~2.0"
+                "react/event-loop": "^0.4|^0.3",
+                "react/promise": "^2.0|^1.0"
             },
             "suggest": {
-                "react/event-loop": "0.4.*",
-                "react/promise": "~2.0"
+                "react/event-loop": "^0.4",
+                "react/promise": "^2.0"
             },
             "type": "library",
             "extra": {
@@ -835,20 +836,20 @@
                 "pipe",
                 "stream"
             ],
-            "time": "2014-09-10 03:32:31"
+            "time": "2015-10-07 18:32:58"
         },
         {
             "name": "wyrihaximus/react-child-process-messenger",
-            "version": "2.0.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/reactphp-child-process-messenger.git",
-                "reference": "ac7601d723b0c1a4d9fc78a0c7d3d5d1043d656e"
+                "reference": "a8d31276b9a1f33d99ef07f294fc19e152210ed4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/reactphp-child-process-messenger/zipball/ac7601d723b0c1a4d9fc78a0c7d3d5d1043d656e",
-                "reference": "ac7601d723b0c1a4d9fc78a0c7d3d5d1043d656e",
+                "url": "https://api.github.com/repos/WyriHaximus/reactphp-child-process-messenger/zipball/a8d31276b9a1f33d99ef07f294fc19e152210ed4",
+                "reference": "a8d31276b9a1f33d99ef07f294fc19e152210ed4",
                 "shasum": ""
             },
             "require": {
@@ -882,32 +883,32 @@
                 }
             ],
             "description": "Messenger decorator for react/child-process",
-            "time": "2015-08-12 20:51:25"
+            "time": "2015-10-09 06:10:04"
         },
         {
             "name": "wyrihaximus/react-child-process-pool",
-            "version": "1.0.0-alpha2",
+            "version": "1.0.0-alpha5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/reactphp-child-process-pool.git",
-                "reference": "a30e0bde5b4df0188d47280051a33d6aaf742805"
+                "reference": "7128c49491436fd4c5b1189541ee039230e1aac0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/reactphp-child-process-pool/zipball/a30e0bde5b4df0188d47280051a33d6aaf742805",
-                "reference": "a30e0bde5b4df0188d47280051a33d6aaf742805",
+                "url": "https://api.github.com/repos/WyriHaximus/reactphp-child-process-pool/zipball/7128c49491436fd4c5b1189541ee039230e1aac0",
+                "reference": "7128c49491436fd4c5b1189541ee039230e1aac0",
                 "shasum": ""
             },
             "require": {
                 "evenement/evenement": "^2.0",
                 "php": ">=5.5.0",
-                "wyrihaximus/react-child-process-messenger": "^2.0",
+                "wyrihaximus/react-child-process-messenger": "^2.1",
                 "wyrihaximus/ticking-promise": "^1.5"
             },
             "require-dev": {
                 "phake/phake": "~1.0.6",
                 "phpunit/phpunit": "~4.0.0",
-                "squizlabs/php_codesniffer": "^1.5.3",
+                "squizlabs/php_codesniffer": "^1.5.6",
                 "vectorface/dunit": "~2.0"
             },
             "type": "library",
@@ -926,20 +927,20 @@
                     "email": "ceesjank@gmail.com"
                 }
             ],
-            "time": "2015-08-12 21:42:10"
+            "time": "2015-10-18 18:37:00"
         },
         {
             "name": "wyrihaximus/ticking-promise",
-            "version": "1.5.0",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/TickingPromise.git",
-                "reference": "f0ce282a5b22149e521e82c5b332722b2b876cca"
+                "reference": "d7b1d16942bdf2199c5a712205716851683fbb6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/TickingPromise/zipball/f0ce282a5b22149e521e82c5b332722b2b876cca",
-                "reference": "f0ce282a5b22149e521e82c5b332722b2b876cca",
+                "url": "https://api.github.com/repos/WyriHaximus/TickingPromise/zipball/d7b1d16942bdf2199c5a712205716851683fbb6e",
+                "reference": "d7b1d16942bdf2199c5a712205716851683fbb6e",
                 "shasum": ""
             },
             "require": {
@@ -947,10 +948,8 @@
                 "react/promise": "~2.1"
             },
             "require-dev": {
-                "object-calisthenics/phpcs-calisthenics-rules": "^1.0",
                 "phpunit/phpunit": "~4.4",
-                "satooshi/php-coveralls": "^0.6",
-                "squizlabs/php_codesniffer": "^1.0",
+                "squizlabs/php_codesniffer": "^1.5.6",
                 "vectorface/dunit": "~1.4"
             },
             "type": "library",
@@ -974,7 +973,7 @@
                 }
             ],
             "description": "Wrapping ticks into a promise",
-            "time": "2015-02-14 22:44:33"
+            "time": "2015-10-03 22:55:34"
         }
     ],
     "packages-dev": [
@@ -1146,16 +1145,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.2.2",
+            "version": "2.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "2d7c03c0e4e080901b8f33b2897b0577be18a13c"
+                "reference": "eabf68b476ac7d0f73793aada060f1c1a9bf8979"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2d7c03c0e4e080901b8f33b2897b0577be18a13c",
-                "reference": "2d7c03c0e4e080901b8f33b2897b0577be18a13c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/eabf68b476ac7d0f73793aada060f1c1a9bf8979",
+                "reference": "eabf68b476ac7d0f73793aada060f1c1a9bf8979",
                 "shasum": ""
             },
             "require": {
@@ -1204,7 +1203,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-08-04 03:42:39"
+            "time": "2015-10-06 15:47:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1337,16 +1336,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "1.4.6",
+            "version": "1.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "3ab72c62e550370a6cd5dc873e1a04ab57562f5b"
+                "reference": "3144ae21711fb6cac0b1ab4cbe63b75ce3d4e8da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/3ab72c62e550370a6cd5dc873e1a04ab57562f5b",
-                "reference": "3ab72c62e550370a6cd5dc873e1a04ab57562f5b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/3144ae21711fb6cac0b1ab4cbe63b75ce3d4e8da",
+                "reference": "3144ae21711fb6cac0b1ab4cbe63b75ce3d4e8da",
                 "shasum": ""
             },
             "require": {
@@ -1382,7 +1381,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2015-08-16 08:51:00"
+            "time": "2015-09-15 10:49:45"
         },
         {
             "name": "phpunit/phpunit",
@@ -1458,20 +1457,20 @@
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "2.3.6",
+            "version": "2.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "18dfbcb81d05e2296c0bcddd4db96cade75e6f42"
+                "reference": "ac8e7a3db35738d56ee9a76e78a4e03d97628983"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/18dfbcb81d05e2296c0bcddd4db96cade75e6f42",
-                "reference": "18dfbcb81d05e2296c0bcddd4db96cade75e6f42",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/ac8e7a3db35738d56ee9a76e78a4e03d97628983",
+                "reference": "ac8e7a3db35738d56ee9a76e78a4e03d97628983",
                 "shasum": ""
             },
             "require": {
-                "doctrine/instantiator": "~1.0,>=1.0.2",
+                "doctrine/instantiator": "^1.0.2",
                 "php": ">=5.3.3",
                 "phpunit/php-text-template": "~1.2",
                 "sebastian/exporter": "~1.2"
@@ -1510,7 +1509,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2015-07-10 06:54:24"
+            "time": "2015-10-02 06:51:40"
         },
         {
             "name": "sebastian/comparator",
@@ -1746,16 +1745,16 @@
         },
         {
             "name": "sebastian/global-state",
-            "version": "1.0.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/global-state.git",
-                "reference": "c7428acdb62ece0a45e6306f1ae85e1c05b09c01"
+                "reference": "bc37d50fea7d017d3d340f230811c9f1d7280af4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/c7428acdb62ece0a45e6306f1ae85e1c05b09c01",
-                "reference": "c7428acdb62ece0a45e6306f1ae85e1c05b09c01",
+                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/bc37d50fea7d017d3d340f230811c9f1d7280af4",
+                "reference": "bc37d50fea7d017d3d340f230811c9f1d7280af4",
                 "shasum": ""
             },
             "require": {
@@ -1793,7 +1792,7 @@
             "keywords": [
                 "global state"
             ],
-            "time": "2014-10-06 09:23:50"
+            "time": "2015-10-12 03:26:01"
         },
         {
             "name": "sebastian/recursion-context",
@@ -1960,16 +1959,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.7.3",
+            "version": "v2.7.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Yaml.git",
-                "reference": "71340e996171474a53f3d29111d046be4ad8a0ff"
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "31cb2ad0155c95b88ee55fe12bc7ff92232c1770"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/71340e996171474a53f3d29111d046be4ad8a0ff",
-                "reference": "71340e996171474a53f3d29111d046be4ad8a0ff",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/31cb2ad0155c95b88ee55fe12bc7ff92232c1770",
+                "reference": "31cb2ad0155c95b88ee55fe12bc7ff92232c1770",
                 "shasum": ""
             },
             "require": {
@@ -2005,7 +2004,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2015-07-28 14:07:07"
+            "time": "2015-09-14 14:14:09"
         },
         {
             "name": "vectorface/dunit",

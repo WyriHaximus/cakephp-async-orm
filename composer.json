@@ -13,7 +13,7 @@
   "require": {
     "php": ">=5.5.0",
     "cakephp/cakephp": "^3.0.0",
-    "wyrihaximus/react-child-process-pool": "^1.0.0-alpha2",
+    "wyrihaximus/react-child-process-pool": "^1.0.0-alpha5",
     "doctrine/annotations": "^1.2",
     "phpdocumentor/reflection-docblock": "^2.0|^3.0"
   },

@@ -4,8 +4,9 @@ namespace WyriHaximus\React\Cake\Orm;
 
 use Cake\Core\App;
 use React\EventLoop\LoopInterface;
+use WyriHaximus\React\ChildProcess\Pool\PoolUtilizerInterface;
 
-class AsyncTableRegistry
+class AsyncTableRegistry implements PoolUtilizerInterface
 {
     /**
      * @var AsyncTable[]
@@ -37,5 +38,23 @@ class AsyncTableRegistry
             App::className($tableName, 'Model/Table', 'Table')
         );
         return static::$tables[$tableName];
+    }
+
+    public static function getInstance()
+    {
+        static $instance = null;
+        if (null === $instance) {
+            $instance = new static();
+        }
+
+        return $instance;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function info()
+    {
+        return Pool::getInstance()->info();
     }
 }

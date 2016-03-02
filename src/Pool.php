@@ -71,7 +71,7 @@ class Pool implements PoolUtilizerInterface
      * @param $tableName
      * @param $function
      * @param array $arguments
-     * @return \React\Promise\PromiseInterface
+     * @return PromiseInterface
      */
     public function call($tableName, $function, array $arguments)
     {

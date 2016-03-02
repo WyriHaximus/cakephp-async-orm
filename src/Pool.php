@@ -33,7 +33,7 @@ class Pool implements PoolUtilizerInterface
     protected function __construct(LoopInterface $loop)
     {
         $this->loop = $loop;
-        $this->pool = Flexible::create(
+        Flexible::create(
             new Process(
                 Configure::read('WyriHaximus.React.Cake.Orm.Process')
             ),
@@ -41,7 +41,9 @@ class Pool implements PoolUtilizerInterface
             [
                 'processOptions' => Configure::read('WyriHaximus.React.Cake.Orm.Line'),
             ]
-        );
+        )->then(function (PoolInterface $pool) {
+            $this->pool = $pool;
+        });
     }
 
     /**
@@ -70,13 +72,11 @@ class Pool implements PoolUtilizerInterface
      */
     public function call($tableName, $function, array $arguments)
     {
-        return $this->pool->then(function (PoolInterface $pool) use ($tableName, $function, $arguments) {
-            return $pool->rpc(Factory::rpc('table.call', [
-                'function' => $function,
-                'table' => $tableName,
-                'arguments' => serialize($arguments),
-            ]));
-        })->then(function ($result) {
+        return $this->pool->rpc(Factory::rpc('table.call', [
+            'function' => $function,
+            'table' => $tableName,
+            'arguments' => serialize($arguments),
+        ]))->then(function ($result) {
             return \React\Promise\resolve($result['result']);
         });
     }

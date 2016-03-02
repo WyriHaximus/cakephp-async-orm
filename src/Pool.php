@@ -5,9 +5,10 @@ namespace WyriHaximus\React\Cake\Orm;
 use Cake\Core\Configure;
 use React\ChildProcess\Process;
 use React\EventLoop\LoopInterface;
-use WyriHaximus\React\ChildProcess\Messenger\Messages\Call;
 use WyriHaximus\React\ChildProcess\Messenger\Messages\Factory;
-use WyriHaximus\React\ChildProcess\Pool\FlexiblePool;
+use WyriHaximus\React\ChildProcess\Pool\Pool\Flexible;
+use WyriHaximus\React\ChildProcess\Pool\PoolInfoInterface;
+use WyriHaximus\React\ChildProcess\Pool\PoolInterface;
 use WyriHaximus\React\ChildProcess\Pool\PoolUtilizerInterface;
 
 /**
@@ -22,7 +23,7 @@ class Pool implements PoolUtilizerInterface
     protected $loop;
 
     /**
-     * @var FlexiblePool
+     * @var PoolInfoInterface
      */
     protected $pool;
 
@@ -32,7 +33,7 @@ class Pool implements PoolUtilizerInterface
     protected function __construct(LoopInterface $loop)
     {
         $this->loop = $loop;
-        $this->pool = new FlexiblePool(
+        $this->pool = Flexible::create(
             new Process(
                 Configure::read('WyriHaximus.React.Cake.Orm.Process')
             ),
@@ -69,11 +70,13 @@ class Pool implements PoolUtilizerInterface
      */
     public function call($tableName, $function, array $arguments)
     {
-        return $this->pool->rpc(Factory::rpc('table.call', [
-            'function' => $function,
-            'table' => $tableName,
-            'arguments' => serialize($arguments),
-        ]))->then(function ($result) {
+        return $this->pool->then(function (PoolInterface $pool) use ($tableName, $function, $arguments) {
+            return $pool->rpc(Factory::rpc('table.call', [
+                'function' => $function,
+                'table' => $tableName,
+                'arguments' => serialize($arguments),
+            ]));
+        })->then(function ($result) {
             return \React\Promise\resolve($result['result']);
         });
     }

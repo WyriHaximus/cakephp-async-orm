@@ -9,7 +9,7 @@ use React\EventLoop\Timer\TimerInterface;
 use React\Promise\Deferred;
 use React\Promise\PromiseInterface;
 use WyriHaximus\React\ChildProcess\Messenger\Messages\Factory;
-use WyriHaximus\React\ChildProcess\Pool\Pool\Flexible;
+use WyriHaximus\React\ChildProcess\Pool\Factory\Flexible;
 use WyriHaximus\React\ChildProcess\Pool\PoolInfoInterface;
 use WyriHaximus\React\ChildProcess\Pool\PoolInterface;
 use WyriHaximus\React\ChildProcess\Pool\PoolUtilizerInterface;
@@ -109,12 +109,15 @@ class Pool implements PoolUtilizerInterface
     {
         $deferred = new Deferred();
 
-        $this->loop->addPeriodicTimer(0.1, function (TimerInterface $timer) use ($deferred, $tableName, $function, $arguments) {
-            if ($this->pool instanceof PoolInterface) {
-                $timer->cancel();
-                $deferred->resolve($this->call($tableName, $function, $arguments));
+        $this->loop->addPeriodicTimer(
+            0.1,
+            function (TimerInterface $timer) use ($deferred, $tableName, $function, $arguments) {
+                if ($this->pool instanceof PoolInterface) {
+                    $timer->cancel();
+                    $deferred->resolve($this->call($tableName, $function, $arguments));
+                }
             }
-        });
+        );
 
         return $deferred->promise();
     }

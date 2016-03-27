@@ -7,6 +7,7 @@ use Cake\ORM\TableRegistry;
 use Doctrine\Common\Annotations\AnnotationReader;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactory;
+use React\Promise\PromiseInterface;
 use WyriHaximus\React\Cake\Orm\Annotations\Async;
 use WyriHaximus\React\Cake\Orm\Annotations\Sync;
 
@@ -44,6 +45,11 @@ class AsyncTable
         $this->reflectionClass = new \ReflectionClass($tableClass);
     }
 
+    /**
+     * @param $function
+     * @param array $arguments
+     * @return PromiseInterface
+     */
     public function __call($function, array $arguments = [])
     {
         if (
@@ -64,6 +70,11 @@ class AsyncTable
         return $this->callSync($function, $arguments);
     }
 
+    /**
+     * @param $function
+     * @param array $arguments
+     * @return PromiseInterface
+     */
     protected function callSync($function, array $arguments = [])
     {
         $table = TableRegistry::get($this->tableName);
@@ -81,6 +92,11 @@ class AsyncTable
         );
     }
 
+    /**
+     * @param $function
+     * @param array $arguments
+     * @return PromiseInterface
+     */
     protected function callAsync($function, array $arguments = [])
     {
         $unSerialize = function ($input) {
@@ -96,17 +112,30 @@ class AsyncTable
             then($unSerialize, $unSerialize, $unSerialize);
     }
 
+    /**
+     * @param $class
+     * @return bool
+     */
     protected function hasClassAnnotation($class)
     {
         return is_a($this->annotationReader->getClassAnnotation($this->reflectionClass, $class), $class);
     }
 
+    /**
+     * @param $method
+     * @param $class
+     * @return bool
+     */
     protected function hasMethodAnnotation($method, $class)
     {
         $methodReflection = $this->reflectionClass->getMethod($method);
         return is_a($this->annotationReader->getMethodAnnotation($methodReflection, $class), $class);
     }
 
+    /**
+     * @param $method
+     * @return bool
+     */
     protected function hasNoMethodAnnotation($method)
     {
         $methodReflection = $this->reflectionClass->getMethod($method);
@@ -116,6 +145,10 @@ class AsyncTable
         );
     }
 
+    /**
+     * @param $function
+     * @return bool
+     */
     protected function returnsQuery($function)
     {
         $docBlockContents = $this->reflectionClass->getMethod($function)->getDocComment();
@@ -133,6 +166,10 @@ class AsyncTable
         return false;
     }
 
+    /**
+     * @param $docBlockContents
+     * @return DocBlock
+     */
     protected function getDocBlock($docBlockContents)
     {
         if (class_exists('phpDocumentor\Reflection\DocBlockFactory')) {

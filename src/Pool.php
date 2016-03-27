@@ -67,6 +67,11 @@ class Pool implements PoolUtilizerInterface
         return $instance;
     }
 
+    public static function reset()
+    {
+        static $instance = null;
+    }
+
     /**
      * @param $tableName
      * @param $function

@@ -50,6 +50,11 @@ class AsyncTableRegistry implements PoolUtilizerInterface
         return $instance;
     }
 
+    public static function reset()
+    {
+        static $instance = null;
+    }
+
     /**
      * @inheritDoc
      */

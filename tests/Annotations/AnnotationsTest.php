@@ -4,8 +4,9 @@ namespace WyriHaximus\React\Tests\Cake\Orm\Annotations;
 
 use WyriHaximus\React\Cake\Orm\AsyncTable;
 use WyriHaximus\React\Cake\Orm\Pool;
+use WyriHaximus\React\Tests\Cake\Orm\TestCase;
 
-class AnnotationsTest extends \PHPUnit_Framework_TestCase
+class AnnotationsTest extends TestCase
 {
     const METHOD = 'method';
 

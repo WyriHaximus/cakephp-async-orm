@@ -19,6 +19,11 @@ class AsyncTableRegistry implements PoolUtilizerInterface
     protected static $instance = null;
 
     /**
+     * @var boolean
+     */
+    protected static $reset = false;
+
+    /**
      * @param LoopInterface $loop
      */
     public static function init(LoopInterface $loop)
@@ -47,8 +52,9 @@ class AsyncTableRegistry implements PoolUtilizerInterface
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
-            self::reset();
+        if (null === self::$instance || self::$reset) {
+            self::$instance = new static();
+            self::$reset = false;
         }
 
         return self::$instance;
@@ -56,7 +62,7 @@ class AsyncTableRegistry implements PoolUtilizerInterface
 
     public static function reset()
     {
-        self::$instance = new static();
+        self::$reset = true;
     }
 
     /**

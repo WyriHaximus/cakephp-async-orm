@@ -31,6 +31,16 @@ class Pool implements PoolUtilizerInterface
     protected $pool;
 
     /**
+     * @var Pool
+     */
+    protected static $instance = null;
+
+    /**
+     * @var boolean
+     */
+    protected static $reset = false;
+
+    /**
      * @param LoopInterface $loop
      */
     protected function __construct(LoopInterface $loop)
@@ -56,20 +66,20 @@ class Pool implements PoolUtilizerInterface
      */
     public static function getInstance(LoopInterface $loop = null)
     {
-        static $instance = null;
-        if (null === $instance) {
+        if (null === self::$instance || self::$reset) {
             if (null === $loop) {
                 throw new \Exception('Missing event loop');
             }
-            $instance = new static($loop);
+            self::$instance = new static($loop);
+            self::$reset = false;
         }
 
-        return $instance;
+        return self::$instance;
     }
 
     public static function reset()
     {
-        static $instance = null;
+        self::$reset = true;
     }
 
     /**
@@ -137,5 +147,21 @@ class Pool implements PoolUtilizerInterface
         }
 
         return [];
+    }
+
+    /**
+     * @return LoopInterface
+     */
+    public function getLoop()
+    {
+        return $this->loop;
+    }
+
+    /**
+     * @return PoolInfoInterface
+     */
+    public function getPool()
+    {
+        return $this->pool;
     }
 }

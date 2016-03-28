@@ -4,11 +4,8 @@ namespace WyriHaximus\React\Tests\Cake\Orm;
 
 use Phake;
 use React\EventLoop\LoopInterface;
-use WyriHaximus\React\Cake\Orm\AsyncTable;
-use WyriHaximus\React\Cake\Orm\AsyncTableRegistry;
 use WyriHaximus\React\Cake\Orm\Pool;
 use WyriHaximus\React\ChildProcess\Pool\PoolInterface;
-use WyriHaximus\React\Tests\Cake\Orm\Annotations\TestTables\AsyncClassAsyncMethodTable;
 
 class PoolTest extends TestCase
 {

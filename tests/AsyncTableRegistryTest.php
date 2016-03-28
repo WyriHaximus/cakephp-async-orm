@@ -19,7 +19,7 @@ class AsyncTableRegistryTest extends TestCase
     {
         $first = spl_object_hash(AsyncTableRegistry::getInstance());
         $second = spl_object_hash(AsyncTableRegistry::getInstance());
-        $this->assertSame($first, $second   );
+        $this->assertSame($first, $second);
     }
 
     public function testGet()

@@ -15,11 +15,19 @@ class AsyncTableRegistryTest extends TestCase
         $this->assertInstanceOf(AsyncTableRegistry::class, AsyncTableRegistry::getInstance());
     }
 
-    public function testReset()
+    public function testSingleton()
     {
         $first = spl_object_hash(AsyncTableRegistry::getInstance());
         $second = spl_object_hash(AsyncTableRegistry::getInstance());
         $this->assertSame($first, $second);
+    }
+
+    public function testReset()
+    {
+        $first = spl_object_hash(AsyncTableRegistry::getInstance());
+        AsyncTableRegistry::reset();
+        $second = spl_object_hash(AsyncTableRegistry::getInstance());
+        $this->assertNotSame($first, $second);
     }
 
     public function testGet()

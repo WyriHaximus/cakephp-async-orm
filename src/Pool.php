@@ -10,6 +10,7 @@ use React\Promise\Deferred;
 use React\Promise\PromiseInterface;
 use WyriHaximus\React\ChildProcess\Messenger\Messages\Factory;
 use WyriHaximus\React\ChildProcess\Pool\Factory\Flexible;
+use WyriHaximus\React\ChildProcess\Pool\Options;
 use WyriHaximus\React\ChildProcess\Pool\PoolInfoInterface;
 use WyriHaximus\React\ChildProcess\Pool\PoolInterface;
 use WyriHaximus\React\ChildProcess\Pool\PoolUtilizerInterface;
@@ -53,6 +54,7 @@ class Pool implements PoolUtilizerInterface
             $this->loop,
             [
                 'processOptions' => Configure::read('WyriHaximus.React.Cake.Orm.Line'),
+                Options::TTL => Configure::read('WyriHaximus.React.Cake.Orm.TTL'),
             ]
         )->then(function (PoolInterface $pool) {
             $this->pool = $pool;

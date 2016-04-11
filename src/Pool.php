@@ -43,36 +43,53 @@ class Pool implements PoolUtilizerInterface
 
     /**
      * @param LoopInterface $loop
+     * @param array $config
      */
-    protected function __construct(LoopInterface $loop)
+    protected function __construct(LoopInterface $loop, array $config = [])
     {
         $this->loop = $loop;
+
         Flexible::create(
             new Process(
                 Configure::read('WyriHaximus.React.Cake.Orm.Process')
             ),
             $this->loop,
-            [
-                'processOptions' => Configure::read('WyriHaximus.React.Cake.Orm.Line'),
-                Options::TTL => Configure::read('WyriHaximus.React.Cake.Orm.TTL'),
-            ]
+            $this->applyConfig($config)
         )->then(function (PoolInterface $pool) {
             $this->pool = $pool;
         });
     }
 
     /**
-     * @param LoopInterface $loop
+     * @param array $config
+     * @return array
+     */
+    protected function applyConfig(array $config)
+    {
+        if (!isset($config['processOptions'])) {
+            $config['processOptions'] = Configure::read('WyriHaximus.React.Cake.Orm.Line');
+        }
+
+        if (!isset($config[Options::TTL])) {
+            $config[Options::TTL] = Configure::read('WyriHaximus.React.Cake.Orm.TTL');
+        }
+
+        return $config;
+    }
+
+    /**
+     * @param LoopInterface|null $loop
+     * @param array $config
      * @return Pool
      * @throws \Exception
      */
-    public static function getInstance(LoopInterface $loop = null)
+    public static function getInstance(LoopInterface $loop = null, array $config = [])
     {
         if (null === self::$instance || self::$reset) {
             if (null === $loop) {
                 throw new \Exception('Missing event loop');
             }
-            self::$instance = new static($loop);
+            self::$instance = new static($loop, $config);
             self::$reset = false;
         }
 

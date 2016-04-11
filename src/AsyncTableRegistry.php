@@ -25,10 +25,11 @@ class AsyncTableRegistry implements PoolUtilizerInterface
 
     /**
      * @param LoopInterface $loop
+     * @param array $config
      */
-    public static function init(LoopInterface $loop)
+    public static function init(LoopInterface $loop, array $config = [])
     {
-        Pool::getInstance($loop);
+        Pool::getInstance($loop, $config);
     }
 
     /**

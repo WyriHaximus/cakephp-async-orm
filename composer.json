@@ -1,5 +1,6 @@
 {
   "name": "wyrihaximus/cake-async-orm",
+  "description": "Asynchronous CakePHP ORM",
   "type":"cakephp-plugin",
   "license": "MIT",
   "authors": [

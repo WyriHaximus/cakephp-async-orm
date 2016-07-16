@@ -1,5 +1,12 @@
 # cakephp-async-orm
 
+[![Linux Build Status](https://travis-ci.org/WyriHaximus/cakephp-async-orm.png)](https://travis-ci.org/WyriHaximus/cakephp-async-orm)
+[![Latest Stable Version](https://poser.pugx.org/WyriHaximus/cake-async-orm/v/stable.png)](https://packagist.org/packages/WyriHaximus/cake-async-orm)
+[![Total Downloads](https://poser.pugx.org/wyrihaximus/cake-async-orm/downloads.png)](https://packagist.org/packages/wyrihaximus/cake-async-orm)
+[![Code Coverage](https://scrutinizer-ci.com/g/WyriHaximus/cakephp-async-orm/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/WyriHaximus/cakephp-async-orm/?branch=master)
+[![License](https://poser.pugx.org/wyrihaximus/cake-async-orm/license.png)](https://packagist.org/packages/wyrihaximus/cake-async-orm)
+[![PHP 7 ready](http://php7ready.timesplinter.ch/WyriHaximus/cakephp-async-orm/badge.svg)](https://travis-ci.org/WyriHaximus/cakephp-async-orm)
+
 Asynchronous access to cake3 models in async projecs, currently in early Alpha stage.
 
 # Example

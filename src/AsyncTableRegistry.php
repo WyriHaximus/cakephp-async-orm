@@ -39,6 +39,10 @@ class AsyncTableRegistry implements PoolUtilizerInterface
      */
     public static function get($tableName)
     {
+        if (is_array($tableName)) {
+            $tableName = $tableName['class'];
+        }
+        
         if (isset(static::$tables[$tableName])) {
             return static::$tables[$tableName];
         }

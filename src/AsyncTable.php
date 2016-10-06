@@ -11,7 +11,7 @@ use React\Promise\PromiseInterface;
 use WyriHaximus\React\Cake\Orm\Annotations\Async;
 use WyriHaximus\React\Cake\Orm\Annotations\Sync;
 
-class AsyncTable
+trait AsyncTable
 {
     /**
      * @var Pool
@@ -37,7 +37,7 @@ class AsyncTable
      * @param Pool $pool
      * @param string $tableName
      */
-    public function __construct(Pool $pool, $tableName, $tableClass)
+    public function setUpAsyncTable(Pool $pool, $tableName, $tableClass)
     {
         $this->pool = $pool;
         $this->tableName = $tableName;

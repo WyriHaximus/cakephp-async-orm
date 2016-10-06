@@ -42,16 +42,22 @@ class AsyncTableRegistry implements PoolUtilizerInterface
         if (is_array($tableName)) {
             $tableName = $tableName['class'];
         }
-        
+
         if (isset(static::$tables[$tableName])) {
             return static::$tables[$tableName];
         }
 
-        static::$tables[$tableName] = new AsyncTable(
-            Pool::getInstance(),
-            $tableName,
-            App::className($tableName, 'Model/Table', 'Table')
-        );
+        $table = new $tableName();
+
+        if ($tableName instanceof AsyncTableInterface) {
+            $table->setUpAsyncTable(
+                Pool::getInstance(),
+                $tableName,
+                App::className($tableName, 'Model/Table', 'Table')
+            );
+        }
+
+        static::$tables[$tableName] = $table;
         return static::$tables[$tableName];
     }
 

@@ -49,7 +49,7 @@ class AsyncTableRegistry implements PoolUtilizerInterface
 
         $table = new $tableName();
 
-        if ($tableName instanceof AsyncTableInterface) {
+        if ($table instanceof AsyncTableInterface) {
             $table->setUpAsyncTable(
                 Pool::getInstance(),
                 $tableName,

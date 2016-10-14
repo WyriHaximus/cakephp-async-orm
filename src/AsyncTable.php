@@ -16,22 +16,22 @@ trait AsyncTable
     /**
      * @var Pool
      */
-    protected $pool;
+    private $pool;
 
     /**
      * @var string
      */
-    protected $tableName;
+    private $tableName;
 
     /**
      * @var AnnotationReader
      */
-    protected $annotationReader;
+    private $annotationReader;
 
     /**
      * @var \ReflectionClass
      */
-    protected $reflectionClass;
+    private $reflectionClass;
 
     /**
      * @param Pool $pool
@@ -50,8 +50,12 @@ trait AsyncTable
      * @param array $arguments
      * @return PromiseInterface
      */
-    public function __call($function, array $arguments = [])
+    protected function callAsyncOrSync($function, $arguments)
     {
+        if ($this->pool === null) {
+            return (new $this->tableName)->$function(...$arguments);
+        }
+
         if (
             $this->returnsQuery($function) ||
             $this->hasMethodAnnotation($function, Async::class) ||
@@ -75,9 +79,12 @@ trait AsyncTable
      * @param array $arguments
      * @return PromiseInterface
      */
-    protected function callSync($function, array $arguments = [])
+    private function callSync($function, array $arguments = [])
     {
-        $table = TableRegistry::get($this->tableName);
+        $table = TableRegistry::get(md5($this->tableName), [
+            'className' => $this->tableName,
+            'table' => 'screenshots',
+        ]);
         if (isset(class_uses($table)[TableRegistryTrait::class])) {
             $table->setRegistry(AsyncTableRegistry::class);
         }
@@ -97,7 +104,7 @@ trait AsyncTable
      * @param array $arguments
      * @return PromiseInterface
      */
-    protected function callAsync($function, array $arguments = [])
+    private function callAsync($function, array $arguments = [])
     {
         $unSerialize = function ($input) {
             if (is_string($input)) {
@@ -107,16 +114,16 @@ trait AsyncTable
             return $input;
         };
         return $this->
-            pool->
-            call($this->tableName, $function, $arguments)->
-            then($unSerialize, $unSerialize, $unSerialize);
+        pool->
+        call($this->tableName, $function, $arguments)->
+        then($unSerialize, $unSerialize, $unSerialize);
     }
 
     /**
      * @param $class
      * @return bool
      */
-    protected function hasClassAnnotation($class)
+    private function hasClassAnnotation($class)
     {
         return is_a($this->annotationReader->getClassAnnotation($this->reflectionClass, $class), $class);
     }
@@ -126,7 +133,7 @@ trait AsyncTable
      * @param $class
      * @return bool
      */
-    protected function hasMethodAnnotation($method, $class)
+    private function hasMethodAnnotation($method, $class)
     {
         $methodReflection = $this->reflectionClass->getMethod($method);
         return is_a($this->annotationReader->getMethodAnnotation($methodReflection, $class), $class);
@@ -136,7 +143,7 @@ trait AsyncTable
      * @param $method
      * @return bool
      */
-    protected function hasNoMethodAnnotation($method)
+    private function hasNoMethodAnnotation($method)
     {
         $methodReflection = $this->reflectionClass->getMethod($method);
         return (
@@ -149,7 +156,7 @@ trait AsyncTable
      * @param $function
      * @return bool
      */
-    protected function returnsQuery($function)
+    private function returnsQuery($function)
     {
         $docBlockContents = $this->reflectionClass->getMethod($function)->getDocComment();
         if (!is_string($docBlockContents)) {
@@ -170,7 +177,7 @@ trait AsyncTable
      * @param $docBlockContents
      * @return DocBlock
      */
-    protected function getDocBlock($docBlockContents)
+    private function getDocBlock($docBlockContents)
     {
         if (class_exists('phpDocumentor\Reflection\DocBlockFactory')) {
             return DocBlockFactory::createInstance()->create($docBlockContents);

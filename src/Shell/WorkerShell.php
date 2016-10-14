@@ -36,7 +36,7 @@ class WorkerShell extends Shell
     protected function handleTableCall(Payload $payload)
     {
         $result = call_user_func_array([
-            TableRegistry::get($payload['table']),
+            TableRegistry::get('screenshots', ['className' => $payload['table'], 'table' => 'screenshots']),
             $payload['function'],
         ], unserialize($payload['arguments']));
 

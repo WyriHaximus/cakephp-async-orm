@@ -91,7 +91,7 @@ final class AsyncTableGenerator
             )
         );
 
-        foreach ($this->extractMethods($tableClass, $ast) as $method) {
+        foreach ($this->extractMethods($ast) as $method) {
             $class->addStmt(
                 self::createMethod(
                     $method->name,
@@ -163,14 +163,16 @@ final class AsyncTableGenerator
      * @param Node[] $ast
      * @return Generator
      */
-    protected function extractMethods($tableClass, array $ast)
+    protected function extractMethods(array $ast)
     {
         foreach ($ast as $node) {
             if (!isset($node->stmts)) {
                 continue;
             }
 
-            yield from $this->iterageStmts($node->stmts);
+            foreach ($this->iterageStmts($node->stmts) as $stmt) {
+                yield $stmt;
+            }
         }
     }
 
@@ -185,7 +187,9 @@ final class AsyncTableGenerator
                 continue;
             }
 
-            yield from $this->iterageStmts($stmt->stmts);
+            foreach ($this->iterageStmts($node->stmts) as $stmt) {
+                yield $stmt;
+            }
         }
     }
 

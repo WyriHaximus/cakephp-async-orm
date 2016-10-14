@@ -14,7 +14,7 @@ class AsyncTableGeneratorTest extends TestCase
         $generator = new AsyncTableGenerator($tmpDir);
         $filename = $generator->generate(ScreenshotsTable::class);
         $this->assertFileEquals(
-            dirname(__DIR__) . DS . 'test_app' . DS . 'ExpectedGeneratedAsyncTable' . DS . 'AsyncScreenshotsTable.php',
+            dirname(__DIR__) . DS . 'test_app' . DS . 'ExpectedGeneratedAsyncTable' . DS . 'C17a66dcf052f6878c3f1c553db4d6bd0_Ff47f6f78cf1b377de64788b3705cda9c.php',
             $tmpDir . $filename . '.php'
         );
     }

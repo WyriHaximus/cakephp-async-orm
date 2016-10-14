@@ -66,9 +66,10 @@ final class AsyncTableGenerator
     public function generate($tableClass)
     {
         $fileName = $this->classLoader->findFile($tableClass);
-        $ast = $this->parser->parse(file_get_contents($fileName));
+        $contents = file_get_contents($fileName);
+        $ast = $this->parser->parse($contents);
 
-        $hashedClass = 'C' . md5($tableClass);
+        $hashedClass = 'C' . md5($tableClass) . '_F' . md5($contents);
 
         $class = $this->factory->class($hashedClass)
             ->extend('BaseTable')
@@ -159,7 +160,6 @@ final class AsyncTableGenerator
     }
 
     /**
-     * @param string $tableClass
      * @param Node[] $ast
      * @return Generator
      */
@@ -187,7 +187,7 @@ final class AsyncTableGenerator
                 continue;
             }
 
-            foreach ($this->iterageStmts($node->stmts) as $stmt) {
+            foreach ($this->iterageStmts($stmt->stmts) as $stmt) {
                 yield $stmt;
             }
         }

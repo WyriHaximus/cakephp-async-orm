@@ -30,7 +30,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "WyriHaximus\\React\\Tests\\Cake\\Orm\\": "tests/"
+      "WyriHaximus\\React\\Tests\\Cake\\Orm\\": "tests/",
+      "WyriHaximus\\React\\TestApp\\Cake\\Orm\\": "test_app/"
     }
   }
 }

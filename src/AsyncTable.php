@@ -114,9 +114,10 @@ trait AsyncTable
             return $input;
         };
         return $this->
-        pool->
-        call($this->tableName, $function, $arguments)->
-        then($unSerialize, $unSerialize, $unSerialize);
+            pool->
+            call(get_parent_class($this), $this->tableName, $function, $arguments)->
+            then($unSerialize, $unSerialize, $unSerialize)
+        ;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace WyriHaximus\React\Cake\Orm;
 
 use Cake\Core\App;
+use Cake\Core\Configure;
 use Cake\ORM\Table;
 use React\EventLoop\LoopInterface;
 use WyriHaximus\React\ChildProcess\Pool\PoolUtilizerInterface;
@@ -46,7 +47,9 @@ class AsyncTableRegistry implements PoolUtilizerInterface
             return static::$tables[$tableName];
         }
 
-        $asyncTableName = (new AsyncTableGenerator(CACHE . 'asyncTables' . DS))->generate($tableName)->getFQCN();
+        $asyncTableName = (new AsyncTableGenerator(
+            Configure::read('WyriHaximus.React.Cake.Orm.Cache.AsyncTables')
+        ))->generate($tableName)->getFQCN();
 
         $asyncTable = new $asyncTableName();
 

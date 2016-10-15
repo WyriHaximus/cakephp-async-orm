@@ -11,13 +11,13 @@ class PoolTest extends TestCase
 {
     public function testGetInstance()
     {
-        $loop = Phake::mock(LoopInterface::class);
-        $this->assertInstanceOf(Pool::class, Pool::getInstance($loop));
+        $loop = $this->prophesize(LoopInterface::class);
+        $this->assertInstanceOf(Pool::class, Pool::getInstance($loop->reveal()));
     }
 
     public function testReset()
     {
-        $loop = Phake::mock(LoopInterface::class);
+        $loop = $this->prophesize(LoopInterface::class)->reveal();
         $first = spl_object_hash(Pool::getInstance($loop));
         Pool::reset();
         $second = spl_object_hash(Pool::getInstance($loop));
@@ -26,13 +26,13 @@ class PoolTest extends TestCase
 
     public function testGetLoop()
     {
-        $loop = Phake::mock(LoopInterface::class);
+        $loop = $this->prophesize(LoopInterface::class)->reveal();
         $this->assertSame($loop, Pool::getInstance($loop)->getLoop());
     }
 
     public function testGetPool()
     {
-        $loop = Phake::mock(LoopInterface::class);
+        $loop = $this->prophesize(LoopInterface::class)->reveal();
         $this->assertInstanceOf(PoolInterface::class, Pool::getInstance($loop)->getPool());
     }
 }

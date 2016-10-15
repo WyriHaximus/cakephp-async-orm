@@ -47,7 +47,9 @@ class AsyncTableRegistry implements PoolUtilizerInterface
             return static::$tables[$tableName];
         }
 
-        $table = new $tableName();
+        $asyncTableName = (new AsyncTableGenerator(CACHE . 'asyncTables' . DS))->generate($tableName)->getFQCN();
+
+        $table = new $asyncTableName();
 
         if ($table instanceof AsyncTableInterface) {
             $table->setUpAsyncTable(

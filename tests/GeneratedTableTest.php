@@ -9,8 +9,8 @@ class GeneratedTableTest extends TestCase
     public function testGetters()
     {
         $generatedTable = new GeneratedTable('A', 'B');
-        $this->assertSame('A', $generatedTable->getClassName());
-        $this->assertSame('B', $generatedTable->getNamespace());
-        $this->assertSame('B\A', $generatedTable->getFQCN());
+        $this->assertSame('A', $generatedTable->getNamespace());
+        $this->assertSame('B', $generatedTable->getClassName());
+        $this->assertSame('A\B', $generatedTable->getFQCN());
     }
 }

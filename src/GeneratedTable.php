@@ -7,29 +7,21 @@ final class GeneratedTable
     /**
      * @var string
      */
-    private $className;
+    private $namespace;
 
     /**
      * @var string
      */
-    private $namespace;
+    private $className;
 
     /**
-     * @param string $className
      * @param string $namespace
+     * @param string $className
      */
-    public function __construct($className, $namespace)
+    public function __construct($namespace, $className)
     {
-        $this->className = $className;
         $this->namespace = $namespace;
-    }
-
-    /**
-     * @return string
-     */
-    public function getClassName()
-    {
-        return $this->className;
+        $this->className = $className;
     }
 
     /**
@@ -38,6 +30,14 @@ final class GeneratedTable
     public function getNamespace()
     {
         return $this->namespace;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClassName()
+    {
+        return $this->className;
     }
 
     /**

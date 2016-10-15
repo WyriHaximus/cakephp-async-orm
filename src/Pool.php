@@ -102,29 +102,32 @@ class Pool implements PoolUtilizerInterface
     }
 
     /**
+     * @param $className
      * @param $tableName
      * @param $function
      * @param array $arguments
      * @return PromiseInterface
      */
-    public function call($tableName, $function, array $arguments)
+    public function call($className, $tableName, $function, array $arguments)
     {
         if ($this->pool instanceof PoolInterface) {
-            return $this->poolCall($tableName, $function, $arguments);
+            return $this->poolCall($className, $tableName, $function, $arguments);
         }
 
-        return $this->waitForPoolCall($tableName, $function, $arguments);
+        return $this->waitForPoolCall($className, $tableName, $function, $arguments);
     }
 
     /**
+     * @param $className
      * @param $tableName
      * @param $function
      * @param array $arguments
      * @return PromiseInterface
      */
-    protected function poolCall($tableName, $function, array $arguments)
+    protected function poolCall($className, $tableName, $function, array $arguments)
     {
         return $this->pool->rpc(Factory::rpc('table.call', [
+            'className' => $className,
             'function' => $function,
             'table' => $tableName,
             'arguments' => serialize($arguments),

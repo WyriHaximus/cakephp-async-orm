@@ -14,6 +14,8 @@ use RuntimeException;
 
 final class AsyncTableGenerator
 {
+    const NAMESPACE_PREFIX = 'WyriHaximus\GeneratedAsyncCakeTable\\';
+
     /**
      * @var string
      */
@@ -60,16 +62,23 @@ final class AsyncTableGenerator
     }
 
     /**
-     * @param string $tableClass
-     * @return string
+     * @param $tableClass
+     * @return GeneratedTable
      */
     public function generate($tableClass)
     {
         $fileName = $this->classLoader->findFile($tableClass);
         $contents = file_get_contents($fileName);
         $ast = $this->parser->parse($contents);
+        $namespace = static::NAMESPACE_PREFIX . $this->extractNamespace($ast);
 
         $hashedClass = 'C' . md5($tableClass) . '_F' . md5($contents);
+
+        $generatedTable = new GeneratedTable($namespace, $hashedClass);
+
+        if (file_exists($this->storageLocation . DIRECTORY_SEPARATOR . $hashedClass . '.php')) {
+            return $generatedTable;
+        }
 
         $class = $this->factory->class($hashedClass)
             ->extend('BaseTable')
@@ -101,7 +110,7 @@ final class AsyncTableGenerator
             );
         }
 
-        $node = $this->factory->namespace('WyriHaximus\GeneratedAsyncCakeTable\\' . $this->extractNamespace($ast))
+        $node = $this->factory->namespace($namespace)
             ->addStmt($this->factory->use(EntityInterface::class))
             ->addStmt($this->factory->use($tableClass)->as('BaseTable'))
             ->addStmt($this->factory->use(AsyncTable::class))
@@ -118,7 +127,7 @@ final class AsyncTableGenerator
             ]) . PHP_EOL
         );
 
-        return $hashedClass;
+        return $generatedTable;
     }
 
     protected function createMethod($method, array $params)

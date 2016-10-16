@@ -6,22 +6,24 @@ use BetterReflection\Reflector\ClassReflector;
 use BetterReflection\SourceLocator\Type\SingleFileSourceLocator;
 use Cake\Console\Shell;
 use Cake\Core\App;
+use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\ORM\TableRegistry;
+use WyriHaximus\React\Cake\Orm\AsyncTableGenerator;
 use WyriHaximus\React\Cake\Orm\AsyncTableRegistry;
 
 class GenerateShell extends Shell
 {
     public function all()
     {
-        foreach (App::path('Table') as $path) {
+        foreach (App::path('Model/Table') as $path) {
             if (is_dir($path)) {
                 $this->iteratePath($path);
             }
         }
 
         foreach (Plugin::loaded() as $plugin) {
-            foreach (App::path('Table', $plugin) as $path) {
+            foreach (App::path('Model/Table', $plugin) as $path) {
                 if (is_dir($path)) {
                     $this->iteratePath($path);
                 }
@@ -33,21 +35,15 @@ class GenerateShell extends Shell
     public function iteratePath($path)
     {
         foreach ($this->setupIterator($path) as $item) {
-            $this->iterateClasses($this->getClassByFile($item));
+            $this->iterateClasses($this->getClassByFile(current($item)));
         }
     }
 
     public function iterateClasses($classes)
     {
         foreach ($classes as $class) {
-            AsyncTableRegistry::get(
-                TableRegistry::get(
-                    md5($class),
-                    [
-                        'className' => $class,
-                    ]
-                )
-            );
+            $className = $class->getName();
+            (new AsyncTableGenerator(Configure::read('WyriHaximus.React.Cake.Orm.Cache.AsyncTables')))->generate($className);
         }
     }
 

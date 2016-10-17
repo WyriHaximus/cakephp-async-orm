@@ -71,10 +71,11 @@ final class AsyncTableGenerator
     }
 
     /**
-     * @param $tableClass
+     * @param string $tableClass
+     * @param bool $force
      * @return GeneratedTable
      */
-    public function generate($tableClass)
+    public function generate($tableClass, $force = false)
     {
         $fileName = $this->classLoader->findFile($tableClass);
         $contents = file_get_contents($fileName);
@@ -85,7 +86,7 @@ final class AsyncTableGenerator
 
         $generatedTable = new GeneratedTable($namespace, $hashedClass);
 
-        if (file_exists($this->storageLocation . DIRECTORY_SEPARATOR . $hashedClass . '.php')) {
+        if (!$force && file_exists($this->storageLocation . DIRECTORY_SEPARATOR . $hashedClass . '.php')) {
             return $generatedTable;
         }
 

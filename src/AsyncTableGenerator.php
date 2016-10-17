@@ -2,7 +2,6 @@
 
 namespace WyriHaximus\React\Cake\Orm;
 
-use BetterReflection\Reflection\ReflectionClass;
 use Cake\Datasource\EntityInterface;
 use Composer\Autoload\ClassLoader;
 use Doctrine\Common\Annotations\AnnotationReader;
@@ -12,6 +11,7 @@ use PhpParser\Node;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
+use ReflectionClass;
 use RuntimeException;
 use WyriHaximus\React\Cake\Orm\Annotations\Ignore;
 
@@ -59,9 +59,9 @@ final class AsyncTableGenerator
     private function locateClassloader()
     {
         foreach ([
-            dirname(__DIR__) . DS . 'vendor' . DS . 'autoload.php',
-            dirname(dirname(dirname(__DIR__))) . DS . 'autoload.php',
-        ] as $path) {
+                     dirname(__DIR__) . DS . 'vendor' . DS . 'autoload.php',
+                     dirname(dirname(dirname(__DIR__))) . DS . 'autoload.php',
+                 ] as $path) {
             if (file_exists($path)) {
                 return require $path;
             }
@@ -111,7 +111,7 @@ final class AsyncTableGenerator
         );
 
         foreach ($this->extractMethods($ast) as $method) {
-            if (!$this->hasMethodAnnotation(ReflectionClass::createFromName($tableClass), $method, Ignore::class)) {
+            if ($this->hasMethodAnnotation(new ReflectionClass($tableClass), $method->name, Ignore::class)) {
                 continue;
             }
 
@@ -162,7 +162,7 @@ final class AsyncTableGenerator
                     )
                 )
             )
-        ;
+            ;
     }
 
     /**

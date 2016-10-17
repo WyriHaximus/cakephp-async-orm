@@ -2,8 +2,10 @@
 
 namespace WyriHaximus\React\Cake\Orm;
 
+use BetterReflection\Reflection\ReflectionClass;
 use Cake\Datasource\EntityInterface;
 use Composer\Autoload\ClassLoader;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Generator;
 use PhpParser\BuilderFactory;
 use PhpParser\Node;
@@ -11,6 +13,7 @@ use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 use RuntimeException;
+use WyriHaximus\React\Cake\Orm\Annotations\Ignore;
 
 final class AsyncTableGenerator
 {
@@ -37,6 +40,11 @@ final class AsyncTableGenerator
     private $classLoader;
 
     /**
+     * @var AnnotationReader
+     */
+    private $annotationReader;
+
+    /**
      * @param string $storageLocation
      */
     public function __construct($storageLocation)
@@ -45,6 +53,7 @@ final class AsyncTableGenerator
         $this->factory = new BuilderFactory();
         $this->parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
         $this->classLoader = $this->locateClassloader();
+        $this->annotationReader = new AnnotationReader();
     }
 
     private function locateClassloader()
@@ -102,6 +111,10 @@ final class AsyncTableGenerator
         );
 
         foreach ($this->extractMethods($ast) as $method) {
+            if (!$this->hasMethodAnnotation(ReflectionClass::createFromName($tableClass), $method, Ignore::class)) {
+                continue;
+            }
+
             $class->addStmt(
                 self::createMethod(
                     $method->name,
@@ -212,4 +225,17 @@ final class AsyncTableGenerator
 
         return 'N' . uniqid('', true);
     }
+
+    /**
+     * @param ReflectionClass $reflectionClass
+     * @param string $method
+     * @param string $class
+     * @return bool
+     */
+    private function hasMethodAnnotation(ReflectionClass $reflectionClass, $method, $class)
+    {
+        $methodReflection = $reflectionClass->getMethod($method);
+        return is_a($this->annotationReader->getMethodAnnotation($methodReflection, $class), $class);
+    }
+
 }

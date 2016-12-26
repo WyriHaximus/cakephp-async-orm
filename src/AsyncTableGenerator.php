@@ -112,6 +112,10 @@ final class AsyncTableGenerator
         );
 
         foreach ($this->extractMethods($ast) as $method) {
+            if (in_array($method->name, ['initialize', 'validationDefault'])) {
+                continue;
+            }
+
             if ($this->hasMethodAnnotation(new ReflectionClass($tableClass), $method->name, Ignore::class)) {
                 continue;
             }

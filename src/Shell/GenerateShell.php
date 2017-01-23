@@ -43,7 +43,9 @@ class GenerateShell extends Shell
     {
         foreach ($classes as $class) {
             $className = $class->getName();
-            (new AsyncTableGenerator(Configure::read('WyriHaximus.React.Cake.Orm.Cache.AsyncTables')))->generate($className, true);
+            (new AsyncTableGenerator(
+                Configure::read('WyriHaximus.React.Cake.Orm.Cache.AsyncTables')
+            ))->generate($className, true);
         }
     }
 

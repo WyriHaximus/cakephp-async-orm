@@ -242,5 +242,4 @@ final class AsyncTableGenerator
         $methodReflection = $reflectionClass->getMethod($method);
         return is_a($this->annotationReader->getMethodAnnotation($methodReflection, $class), $class);
     }
-
 }

@@ -1,29 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace WyriHaximus\React\Tests\Cake\Orm\Annotations;
 
-use WyriHaximus\React\Cake\Orm\AsyncTable;
 use WyriHaximus\React\Cake\Orm\Pool;
 use WyriHaximus\React\Tests\Cake\Orm\TestCase;
+use WyriHaximus\React\Tests\Cake\Orm\TestTable;
 
 class AnnotationsTest extends TestCase
 {
     const METHOD = 'method';
 
-    protected static function method()
-    {
-        return static::METHOD;
-    }
-
-    protected static function arguments()
-    {
-        return [];
-    }
-
     public function getAsyncTableMock($tableName, $method = self::METHOD)
     {
         $table = \Phake::partialMock(
-            AsyncTable::class,
+            TestTable::class,
             \Phake::mock(Pool::class),
             $tableName,
             'WyriHaximus\React\Tests\Cake\Orm\Annotations\TestTables\\' . $tableName
@@ -50,6 +40,8 @@ class AnnotationsTest extends TestCase
 
     /**
      * @dataProvider providerMethod
+     * @param mixed $tableName
+     * @param mixed $method
      */
     public function testAnnotations($tableName, $method)
     {
@@ -59,7 +51,7 @@ class AnnotationsTest extends TestCase
             call_user_func_array(
                 [
                     $table,
-                    static::method()
+                    static::method(),
                 ],
                 static::arguments()
             )
@@ -79,6 +71,8 @@ class AnnotationsTest extends TestCase
 
     /**
      * @dataProvider providerOtherBlocks
+     * @param mixed $method
+     * @param mixed $function
      */
     public function testOtherBlocks($method, $function)
     {
@@ -88,12 +82,22 @@ class AnnotationsTest extends TestCase
             call_user_func_array(
                 [
                     $table,
-                    $method
+                    $method,
                 ],
                 static::arguments()
             )
         );
 
         \Phake::verify($table)->$function($method, static::arguments());
+    }
+
+    protected static function method()
+    {
+        return static::METHOD;
+    }
+
+    protected static function arguments()
+    {
+        return [];
     }
 }

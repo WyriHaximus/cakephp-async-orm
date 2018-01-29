@@ -1,8 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace WyriHaximus\React\Tests\Cake\Orm;
 
-use Phake;
 use React\EventLoop\LoopInterface;
 use WyriHaximus\React\Cake\Orm\Pool;
 use WyriHaximus\React\ChildProcess\Pool\PoolInterface;

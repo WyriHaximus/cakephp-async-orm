@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace WyriHaximus\React\Tests\Cake\Orm\Annotations\TestTables;
 
@@ -12,6 +12,5 @@ class NullClassSyncMethodTable extends Table
      */
     public function method()
     {
-
     }
 }

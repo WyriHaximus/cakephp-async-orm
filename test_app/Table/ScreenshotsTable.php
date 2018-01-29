@@ -19,4 +19,9 @@ class ScreenshotsTable extends Table
     {
         return $this->findByMd5($md5);
     }
+
+    public function getByEntity($md5)
+    {
+        return $this->findByMd5($md5);
+    }
 }

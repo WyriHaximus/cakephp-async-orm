@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace WyriHaximus\React\Cake\Orm\Shell;
 
@@ -7,6 +7,7 @@ use Cake\Core\Configure;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use React\EventLoop\Factory as LoopFactory;
+use React\Promise\Deferred;
 use WyriHaximus\React\ChildProcess\Messenger\Factory;
 use WyriHaximus\React\ChildProcess\Messenger\Messages\Payload;
 
@@ -23,17 +24,22 @@ class WorkerShell extends Shell
         $recipient = Factory::child($this->loop, Configure::read('WyriHaximus.React.Cake.Orm.Line'));
 
         $recipient->registerRpc('table.call', function (Payload $payload) {
-            return $this->handleTableCall($payload);
+            $deferred = new Deferred();
+            $this->loop->futureTick(function () use ($payload, $deferred) {
+                $this->handleTableCall($payload, $deferred);
+            });
+
+            return $deferred->promise();
         });
 
         $this->loop->run();
     }
 
     /**
-     * @param Payload $payload
-     * @return \React\Promise\PromiseInterface
+     * @param Payload  $payload
+     * @param Deferred $deferred
      */
-    protected function handleTableCall(Payload $payload)
+    protected function handleTableCall(Payload $payload, Deferred $deferred)
     {
         $result = call_user_func_array([
             TableRegistry::get(
@@ -46,12 +52,20 @@ class WorkerShell extends Shell
             $payload['function'],
         ], unserialize($payload['arguments']));
 
-        if ($result instanceof Query) {
-            $result = $result->all();
+        if (!($result instanceof Query)) {
+            $deferred->resolve([
+                'result' => serialize($result),
+            ]);
+
+            return;
         }
 
-        return \React\Promise\resolve([
-            'result' => serialize($result),
-        ]);
+        foreach ($result->all() as $row) {
+            $deferred->notify([
+                'row' => $row,
+            ]);
+        }
+
+        $deferred->resolve();
     }
 }

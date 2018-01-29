@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace WyriHaximus\React\Cake\Orm;
 
@@ -16,7 +16,7 @@ use WyriHaximus\React\ChildProcess\Pool\PoolInterface;
 use WyriHaximus\React\ChildProcess\Pool\PoolUtilizerInterface;
 
 /**
- * Class Pool
+ * Class Pool.
  * @package WyriHaximus\React\Cake\Orm
  */
 class Pool implements PoolUtilizerInterface
@@ -37,13 +37,13 @@ class Pool implements PoolUtilizerInterface
     protected static $instance = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected static $reset = false;
 
     /**
      * @param LoopInterface $loop
-     * @param array $config
+     * @param array         $config
      */
     protected function __construct(LoopInterface $loop, array $config = [])
     {
@@ -61,27 +61,10 @@ class Pool implements PoolUtilizerInterface
     }
 
     /**
-     * @param array $config
-     * @return array
-     */
-    protected function applyConfig(array $config)
-    {
-        if (!isset($config['processOptions'])) {
-            $config['processOptions'] = Configure::read('WyriHaximus.React.Cake.Orm.Line');
-        }
-
-        if (!isset($config[Options::TTL])) {
-            $config[Options::TTL] = Configure::read('WyriHaximus.React.Cake.Orm.TTL');
-        }
-
-        return $config;
-    }
-
-    /**
-     * @param LoopInterface|null $loop
-     * @param array $config
-     * @return Pool
+     * @param  LoopInterface|null $loop
+     * @param  array              $config
      * @throws \Exception
+     * @return Pool
      */
     public static function getInstance(LoopInterface $loop = null, array $config = [])
     {
@@ -105,7 +88,7 @@ class Pool implements PoolUtilizerInterface
      * @param $className
      * @param $tableName
      * @param $function
-     * @param array $arguments
+     * @param  array            $arguments
      * @return PromiseInterface
      */
     public function call($className, $tableName, $function, array $arguments)
@@ -115,48 +98,6 @@ class Pool implements PoolUtilizerInterface
         }
 
         return $this->waitForPoolCall($className, $tableName, $function, $arguments);
-    }
-
-    /**
-     * @param $className
-     * @param $tableName
-     * @param $function
-     * @param array $arguments
-     * @return PromiseInterface
-     */
-    protected function poolCall($className, $tableName, $function, array $arguments)
-    {
-        return $this->pool->rpc(Factory::rpc('table.call', [
-            'className' => $className,
-            'function' => $function,
-            'table' => $tableName,
-            'arguments' => serialize($arguments),
-        ]))->then(function ($result) {
-            return \React\Promise\resolve($result['result']);
-        });
-    }
-
-    /**
-     * @param $tableName
-     * @param $function
-     * @param array $arguments
-     * @return PromiseInterface
-     */
-    protected function waitForPoolCall($tableName, $function, array $arguments)
-    {
-        $deferred = new Deferred();
-
-        $this->loop->addPeriodicTimer(
-            0.1,
-            function (TimerInterface $timer) use ($deferred, $tableName, $function, $arguments) {
-                if ($this->pool instanceof PoolInterface) {
-                    $timer->cancel();
-                    $deferred->resolve($this->call($tableName, $function, $arguments));
-                }
-            }
-        );
-
-        return $deferred->promise();
     }
 
     /**
@@ -185,5 +126,64 @@ class Pool implements PoolUtilizerInterface
     public function getPool()
     {
         return $this->pool;
+    }
+
+    /**
+     * @param  array $config
+     * @return array
+     */
+    protected function applyConfig(array $config)
+    {
+        if (!isset($config['processOptions'])) {
+            $config['processOptions'] = Configure::read('WyriHaximus.React.Cake.Orm.Line');
+        }
+
+        if (!isset($config[Options::TTL])) {
+            $config[Options::TTL] = Configure::read('WyriHaximus.React.Cake.Orm.TTL');
+        }
+
+        return $config;
+    }
+
+    /**
+     * @param $className
+     * @param $tableName
+     * @param $function
+     * @param  array            $arguments
+     * @return PromiseInterface
+     */
+    protected function poolCall($className, $tableName, $function, array $arguments)
+    {
+        return $this->pool->rpc(Factory::rpc('table.call', [
+            'className' => $className,
+            'function' => $function,
+            'table' => $tableName,
+            'arguments' => serialize($arguments),
+        ]))->then(function ($result) {
+            return \React\Promise\resolve($result['result']);
+        });
+    }
+
+    /**
+     * @param $tableName
+     * @param $function
+     * @param  array            $arguments
+     * @return PromiseInterface
+     */
+    protected function waitForPoolCall($tableName, $function, array $arguments)
+    {
+        $deferred = new Deferred();
+
+        $this->loop->addPeriodicTimer(
+            0.1,
+            function (TimerInterface $timer) use ($deferred, $tableName, $function, $arguments) {
+                if ($this->pool instanceof PoolInterface) {
+                    $timer->cancel();
+                    $deferred->resolve($this->call($tableName, $function, $arguments));
+                }
+            }
+        );
+
+        return $deferred->promise();
     }
 }

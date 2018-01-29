@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace WyriHaximus\React\Cake\Orm;
 
@@ -34,8 +34,9 @@ trait AsyncTable
     private $reflectionClass;
 
     /**
-     * @param Pool $pool
+     * @param Pool   $pool
      * @param string $tableName
+     * @param mixed  $tableClass
      */
     public function setUpAsyncTable(Pool $pool, $tableName, $tableClass)
     {
@@ -47,13 +48,13 @@ trait AsyncTable
 
     /**
      * @param $function
-     * @param array $arguments
+     * @param  array            $arguments
      * @return PromiseInterface
      */
     protected function callAsyncOrSync($function, $arguments)
     {
         if ($this->pool === null) {
-            return (new $this->tableName)->$function(...$arguments);
+            return (new $this->tableName())->$function(...$arguments);
         }
 
         if (
@@ -76,7 +77,7 @@ trait AsyncTable
 
     /**
      * @param $function
-     * @param array $arguments
+     * @param  array            $arguments
      * @return PromiseInterface
      */
     private function callSync($function, array $arguments = [])
@@ -88,11 +89,12 @@ trait AsyncTable
         if (isset(class_uses($table)[TableRegistryTrait::class])) {
             $table->setRegistry(AsyncTableRegistry::class);
         }
+
         return \React\Promise\resolve(
             call_user_func_array(
                 [
                     $table,
-                    $function
+                    $function,
                 ],
                 $arguments
             )
@@ -101,7 +103,7 @@ trait AsyncTable
 
     /**
      * @param $function
-     * @param array $arguments
+     * @param  array            $arguments
      * @return PromiseInterface
      */
     private function callAsync($function, array $arguments = [])
@@ -113,6 +115,7 @@ trait AsyncTable
 
             return $input;
         };
+
         return $this->
             pool->
             call(get_parent_class($this), $this->tableName, $function, $arguments)->
@@ -137,6 +140,7 @@ trait AsyncTable
     private function hasMethodAnnotation($method, $class)
     {
         $methodReflection = $this->reflectionClass->getMethod($method);
+
         return is_a($this->annotationReader->getMethodAnnotation($methodReflection, $class), $class);
     }
 
@@ -147,6 +151,7 @@ trait AsyncTable
     private function hasNoMethodAnnotation($method)
     {
         $methodReflection = $this->reflectionClass->getMethod($method);
+
         return (
             $this->annotationReader->getMethodAnnotation($methodReflection, Async::class) === null &&
             $this->annotationReader->getMethodAnnotation($methodReflection, Sync::class) === null

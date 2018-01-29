@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace WyriHaximus\React\Cake\Orm\Shell;
 
@@ -8,9 +8,7 @@ use Cake\Console\Shell;
 use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
-use Cake\ORM\TableRegistry;
 use WyriHaximus\React\Cake\Orm\AsyncTableGenerator;
-use WyriHaximus\React\Cake\Orm\AsyncTableRegistry;
 
 class GenerateShell extends Shell
 {
@@ -29,7 +27,6 @@ class GenerateShell extends Shell
                 }
             }
         }
-
     }
 
     public function iteratePath($path)
@@ -54,21 +51,6 @@ class GenerateShell extends Shell
         return (new ClassReflector(new SingleFileSourceLocator($fileName)))->getAllClasses();
     }
 
-    protected function setupIterator($path)
-    {
-        return new \RegexIterator(new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator(
-                $path,
-                \FilesystemIterator::KEY_AS_PATHNAME |
-                \FilesystemIterator::CURRENT_AS_FILEINFO |
-                \FilesystemIterator::SKIP_DOTS
-            ),
-            \RecursiveIteratorIterator::CHILD_FIRST,
-            \RecursiveIteratorIterator::CATCH_GET_CHILD
-        ), '/.*?.php$/', \RegexIterator::GET_MATCH);
-    }
-
-
     /**
      * Set options for this console.
      *
@@ -89,5 +71,19 @@ class GenerateShell extends Shell
         // @codingStandardsIgnoreStart
         )->description(__('Async table pregenerator'));
         // @codingStandardsIgnoreEnd
+    }
+
+    protected function setupIterator($path)
+    {
+        return new \RegexIterator(new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator(
+                $path,
+                \FilesystemIterator::KEY_AS_PATHNAME |
+                \FilesystemIterator::CURRENT_AS_FILEINFO |
+                \FilesystemIterator::SKIP_DOTS
+            ),
+            \RecursiveIteratorIterator::CHILD_FIRST,
+            \RecursiveIteratorIterator::CATCH_GET_CHILD
+        ), '/.*?.php$/', \RegexIterator::GET_MATCH);
     }
 }

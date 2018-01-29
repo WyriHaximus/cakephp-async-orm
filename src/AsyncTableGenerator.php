@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace WyriHaximus\React\Cake\Orm;
 
@@ -51,28 +51,14 @@ final class AsyncTableGenerator
     {
         $this->storageLocation = $storageLocation;
         $this->factory = new BuilderFactory();
-        $this->parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+        $this->parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
         $this->classLoader = $this->locateClassloader();
         $this->annotationReader = new AnnotationReader();
     }
 
-    private function locateClassloader()
-    {
-        foreach ([
-                     dirname(__DIR__) . DS . 'vendor' . DS . 'autoload.php',
-                     dirname(dirname(dirname(__DIR__))) . DS . 'autoload.php',
-                 ] as $path) {
-            if (file_exists($path)) {
-                return require $path;
-            }
-        }
-
-        throw new RuntimeException('Unable to locate class loader');
-    }
-
     /**
-     * @param string $tableClass
-     * @param bool $force
+     * @param  string         $tableClass
+     * @param  bool           $force
      * @return GeneratedTable
      */
     public function generate($tableClass, $force = false)
@@ -97,7 +83,7 @@ final class AsyncTableGenerator
 
         $class->addStmt(
             new Node\Stmt\TraitUse([
-                new Node\Name('AsyncTable')
+                new Node\Name('AsyncTable'),
             ])
         );
 
@@ -112,7 +98,7 @@ final class AsyncTableGenerator
         );
 
         foreach ($this->extractMethods($ast) as $method) {
-            if (in_array($method->name, ['initialize', 'validationDefault'])) {
+            if (in_array($method->name, ['initialize', 'validationDefault'], true)) {
                 continue;
             }
 
@@ -141,7 +127,7 @@ final class AsyncTableGenerator
         file_put_contents(
             $this->storageLocation . DIRECTORY_SEPARATOR . $hashedClass . '.php',
             $prettyPrinter->prettyPrintFile([
-                $node
+                $node,
             ]) . PHP_EOL
         );
 
@@ -171,7 +157,7 @@ final class AsyncTableGenerator
     }
 
     /**
-     * @param array $params
+     * @param  array $params
      * @return array
      */
     protected function createMethodArguments(array $params)
@@ -183,11 +169,12 @@ final class AsyncTableGenerator
             }
             $arguments[] = new Node\Expr\Variable($param->name);
         }
+
         return $arguments;
     }
 
     /**
-     * @param Node[] $ast
+     * @param  Node[]    $ast
      * @return Generator
      */
     protected function extractMethods(array $ast)
@@ -231,15 +218,30 @@ final class AsyncTableGenerator
         return 'N' . uniqid('', true);
     }
 
+    private function locateClassloader()
+    {
+        foreach ([
+                     dirname(__DIR__) . DS . 'vendor' . DS . 'autoload.php',
+                     dirname(dirname(dirname(__DIR__))) . DS . 'autoload.php',
+                 ] as $path) {
+            if (file_exists($path)) {
+                return require $path;
+            }
+        }
+
+        throw new RuntimeException('Unable to locate class loader');
+    }
+
     /**
-     * @param ReflectionClass $reflectionClass
-     * @param string $method
-     * @param string $class
+     * @param  ReflectionClass $reflectionClass
+     * @param  string          $method
+     * @param  string          $class
      * @return bool
      */
     private function hasMethodAnnotation(ReflectionClass $reflectionClass, $method, $class)
     {
         $methodReflection = $reflectionClass->getMethod($method);
+
         return is_a($this->annotationReader->getMethodAnnotation($methodReflection, $class), $class);
     }
 }

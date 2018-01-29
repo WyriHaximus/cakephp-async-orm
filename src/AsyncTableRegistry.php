@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace WyriHaximus\React\Cake\Orm;
 
@@ -21,13 +21,13 @@ class AsyncTableRegistry implements PoolUtilizerInterface
     protected static $instance = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected static $reset = false;
 
     /**
      * @param LoopInterface $loop
-     * @param array $config
+     * @param array         $config
      */
     public static function init(LoopInterface $loop, array $config = [])
     {
@@ -62,6 +62,7 @@ class AsyncTableRegistry implements PoolUtilizerInterface
         }
 
         static::$tables[$tableName] = $asyncTable;
+
         return static::$tables[$tableName];
     }
 

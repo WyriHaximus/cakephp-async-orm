@@ -8,8 +8,10 @@ use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use React\EventLoop\Factory as LoopFactory;
 use React\Promise\Deferred;
+use WyriHaximus\React\ChildProcess\Messenger\ArgvEncoder;
 use WyriHaximus\React\ChildProcess\Messenger\Factory;
 use WyriHaximus\React\ChildProcess\Messenger\Messages\Payload;
+use WyriHaximus\React\ChildProcess\Messenger\Messenger;
 
 class WorkerShell extends Shell
 {
@@ -21,17 +23,17 @@ class WorkerShell extends Shell
     public function run()
     {
         $this->loop = LoopFactory::create();
-        $recipient = Factory::child($this->loop, Configure::read('WyriHaximus.React.Cake.Orm.Line'));
+        global $argv;
+        Factory::child($this->loop, ArgvEncoder::decode(array_pop($argv)))->then(function (Messenger $recipient) {
+            $recipient->registerRpc('table.call', function (Payload $payload) {
+                $deferred = new Deferred();
+                $this->loop->futureTick(function () use ($payload, $deferred) {
+                    $this->handleTableCall($payload, $deferred);
+                });
 
-        $recipient->registerRpc('table.call', function (Payload $payload) {
-            $deferred = new Deferred();
-            $this->loop->futureTick(function () use ($payload, $deferred) {
-                $this->handleTableCall($payload, $deferred);
+                return $deferred->promise();
             });
-
-            return $deferred->promise();
         });
-
         $this->loop->run();
     }
 

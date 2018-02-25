@@ -212,7 +212,7 @@ final class AsyncTableGenerator
     {
         foreach ($ast as $node) {
             if ($node instanceof Node\Stmt\Namespace_) {
-                return (string)$node->name;
+                return str_replace('\\', '_', (string)$node->name);
             }
         }
 

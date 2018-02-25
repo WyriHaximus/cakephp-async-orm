@@ -17,7 +17,7 @@ use WyriHaximus\React\Cake\Orm\Annotations\Ignore;
 
 final class AsyncTableGenerator
 {
-    const NAMESPACE_PREFIX = 'WyriHaximus\GeneratedAsyncCakeTable\\';
+    const NAMESPACE_PREFIX = 'WyriHaximus\GeneratedAsyncCakeTable';
 
     /**
      * @var string
@@ -66,9 +66,9 @@ final class AsyncTableGenerator
         $fileName = $this->classLoader->findFile($tableClass);
         $contents = file_get_contents($fileName);
         $ast = $this->parser->parse($contents);
-        $namespace = static::NAMESPACE_PREFIX . $this->extractNamespace($ast);
+        $namespace = static::NAMESPACE_PREFIX;
 
-        $hashedClass = 'C' . md5($tableClass) . '_F' . md5($contents);
+        $hashedClass = $this->extractNamespace($ast) . '_C' . md5($tableClass) . '_F' . md5($contents);
 
         $generatedTable = new GeneratedTable($namespace, $hashedClass);
 

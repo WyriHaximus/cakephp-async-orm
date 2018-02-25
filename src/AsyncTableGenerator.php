@@ -115,6 +115,7 @@ final class AsyncTableGenerator
         }
 
         $node = $this->factory->namespace($namespace)
+            ->addStmts(iterator_to_array($this->extractClassImports($ast)))
             ->addStmt($this->factory->use(EntityInterface::class))
             ->addStmt($this->factory->use($tableClass)->as('BaseTable'))
             ->addStmt($this->factory->use(AsyncTable::class))
@@ -216,6 +217,19 @@ final class AsyncTableGenerator
         }
 
         return 'N' . uniqid('', true);
+    }
+
+    protected function extractClassImports(array $ast)
+    {
+        foreach ($ast as $node) {
+            if ($node instanceof Node\Stmt\Namespace_) {
+                foreach ($node->stmts as $stmt) {
+                    if ($stmt instanceof Node\Stmt\Use_) {
+                        yield $stmt;
+                    }
+                }
+            }
+        }
     }
 
     private function locateClassloader()

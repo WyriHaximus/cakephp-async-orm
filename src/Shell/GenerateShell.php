@@ -2,12 +2,13 @@
 
 namespace WyriHaximus\React\Cake\Orm\Shell;
 
-use BetterReflection\Reflector\ClassReflector;
-use BetterReflection\SourceLocator\Type\SingleFileSourceLocator;
 use Cake\Console\Shell;
 use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
+use Roave\BetterReflection\BetterReflection;
+use Roave\BetterReflection\Reflector\ClassReflector;
+use Roave\BetterReflection\SourceLocator\Type\SingleFileSourceLocator;
 use WyriHaximus\React\Cake\Orm\AsyncTableGenerator;
 
 class GenerateShell extends Shell
@@ -48,7 +49,7 @@ class GenerateShell extends Shell
 
     public function getClassByFile($fileName)
     {
-        return (new ClassReflector(new SingleFileSourceLocator($fileName)))->getAllClasses();
+        return (new ClassReflector(new SingleFileSourceLocator($fileName, (new BetterReflection())->astLocator())))->getAllClasses();
     }
 
     /**

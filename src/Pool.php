@@ -3,7 +3,6 @@
 namespace WyriHaximus\React\Cake\Orm;
 
 use Cake\Core\Configure;
-use React\ChildProcess\Process;
 use React\EventLoop\LoopInterface;
 use React\EventLoop\Timer\TimerInterface;
 use React\Promise\Deferred;
@@ -49,10 +48,8 @@ class Pool implements PoolUtilizerInterface
     {
         $this->loop = $loop;
 
-        Flexible::create(
-            new Process(
-                Configure::read('WyriHaximus.React.Cake.Orm.Process')
-            ),
+        Flexible::createFromClass(
+            WorkerChild::class,
             $this->loop,
             $this->applyConfig($config)
         )->then(function (PoolInterface $pool) {

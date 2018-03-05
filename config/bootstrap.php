@@ -12,13 +12,6 @@ if (!Configure::check('WyriHaximus.React.Cake.Orm.Line')) {
     ]);
 }
 
-if (!Configure::check('WyriHaximus.React.Cake.Orm.Process')) {
-    Configure::write(
-        'WyriHaximus.React.Cake.Orm.Process',
-        'exec php ' . ROOT . '/bin/cake.php WyriHaximus/React/Cake/Orm.worker run -q'
-    );
-}
-
 if (!Configure::check('WyriHaximus.React.Cake.Orm.TTL')) {
     Configure::write('WyriHaximus.React.Cake.Orm.TTL', 3);
 }

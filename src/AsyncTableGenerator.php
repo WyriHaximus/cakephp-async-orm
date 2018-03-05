@@ -17,7 +17,7 @@ use WyriHaximus\React\Cake\Orm\Annotations\Ignore;
 
 final class AsyncTableGenerator
 {
-    const NAMESPACE_PREFIX = 'WyriHaximus\GeneratedAsyncCakeTable\\';
+    const NAMESPACE_PREFIX = 'WyriHaximus\GeneratedAsyncCakeTable';
 
     /**
      * @var string
@@ -66,9 +66,9 @@ final class AsyncTableGenerator
         $fileName = $this->classLoader->findFile($tableClass);
         $contents = file_get_contents($fileName);
         $ast = $this->parser->parse($contents);
-        $namespace = static::NAMESPACE_PREFIX . $this->extractNamespace($ast);
+        $namespace = static::NAMESPACE_PREFIX;
 
-        $hashedClass = 'C' . md5($tableClass) . '_F' . md5($contents);
+        $hashedClass = $this->extractNamespace($ast) . '_C' . md5($tableClass) . '_F' . md5($contents);
 
         $generatedTable = new GeneratedTable($namespace, $hashedClass);
 
@@ -115,6 +115,7 @@ final class AsyncTableGenerator
         }
 
         $node = $this->factory->namespace($namespace)
+            ->addStmts(iterator_to_array($this->extractClassImports($ast)))
             ->addStmt($this->factory->use(EntityInterface::class))
             ->addStmt($this->factory->use($tableClass)->as('BaseTable'))
             ->addStmt($this->factory->use(AsyncTable::class))
@@ -211,11 +212,24 @@ final class AsyncTableGenerator
     {
         foreach ($ast as $node) {
             if ($node instanceof Node\Stmt\Namespace_) {
-                return (string)$node->name;
+                return str_replace('\\', '_', (string)$node->name);
             }
         }
 
         return 'N' . uniqid('', true);
+    }
+
+    protected function extractClassImports(array $ast)
+    {
+        foreach ($ast as $node) {
+            if ($node instanceof Node\Stmt\Namespace_) {
+                foreach ($node->stmts as $stmt) {
+                    if ($stmt instanceof Node\Stmt\Use_) {
+                        yield $stmt;
+                    }
+                }
+            }
+        }
     }
 
     private function locateClassloader()

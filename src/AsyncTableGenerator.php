@@ -124,13 +124,29 @@ final class AsyncTableGenerator
             ->getNode()
         ;
 
+        $fileName = $this->storageLocation . DIRECTORY_SEPARATOR . $hashedClass . '.php';
         $prettyPrinter = new Standard();
+        $fileContents = $prettyPrinter->prettyPrintFile([$node,]) . PHP_EOL;
         file_put_contents(
-            $this->storageLocation . DIRECTORY_SEPARATOR . $hashedClass . '.php',
-            $prettyPrinter->prettyPrintFile([
-                $node,
-            ]) . PHP_EOL
+            $fileName,
+            $fileContents
         );
+
+        do {
+            usleep(500);
+        } while (file_get_contents($fileName) !== $fileContents);
+
+        $command = 'PHP_CS_FIXER_IGNORE_ENV=1 ' .
+            dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor/bin/php-cs-fixer fix ' .
+            $this->storageLocation . DIRECTORY_SEPARATOR . $hashedClass . '.php' .
+            ' --config=' .
+            dirname(__DIR__) .
+            DIRECTORY_SEPARATOR .
+            '.php_cs ' .
+            ' --allow-risky=yes -q -v --stop-on-violation --using-cache=no' .
+            ' 2>&1';
+
+        exec($command);
 
         return $generatedTable;
     }

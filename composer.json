@@ -13,6 +13,7 @@
     "php": "^7.1",
     "cakephp/cakephp": "^3.0.0",
     "doctrine/annotations": "^1.2",
+    "friendsofphp/php-cs-fixer": "^2.10",
     "nikic/php-parser": "^3.0 || ^2.0 || ^1.0",
     "phpdocumentor/reflection-docblock": "^4.0 || ^3.0 || ^2.0",
     "roave/better-reflection": "^2.0",

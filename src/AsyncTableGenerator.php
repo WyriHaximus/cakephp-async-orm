@@ -114,12 +114,14 @@ final class AsyncTableGenerator
             );
         }
 
+        $uses = iterator_to_array($this->extractClassImports($ast));
+        $uses[] = $this->factory->use(EntityInterface::class);
+        $uses[] = $this->factory->use($tableClass)->as('BaseTable');
+        $uses[] = $this->factory->use(AsyncTable::class);
+        $uses[] = $this->factory->use(AsyncTable::class);
+        $uses[] = $this->factory->use(AsyncTableInterface::class);
         $node = $this->factory->namespace($namespace)
-            ->addStmts(iterator_to_array($this->extractClassImports($ast)))
-            ->addStmt($this->factory->use(EntityInterface::class))
-            ->addStmt($this->factory->use($tableClass)->as('BaseTable'))
-            ->addStmt($this->factory->use(AsyncTable::class))
-            ->addStmt($this->factory->use(AsyncTableInterface::class))
+            ->addStmts(array_unique(array_values($uses)))
             ->addStmt($class)
             ->getNode()
         ;

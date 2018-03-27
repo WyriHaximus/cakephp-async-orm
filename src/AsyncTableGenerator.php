@@ -6,6 +6,7 @@ use Cake\Datasource\EntityInterface;
 use Composer\Autoload\ClassLoader;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Generator;
+use PhpParser\Builder\Use_;
 use PhpParser\BuilderFactory;
 use PhpParser\Node;
 use PhpParser\Parser;
@@ -120,8 +121,9 @@ final class AsyncTableGenerator
         $uses[] = $this->factory->use(AsyncTable::class);
         $uses[] = $this->factory->use(AsyncTable::class);
         $uses[] = $this->factory->use(AsyncTableInterface::class);
+
         $node = $this->factory->namespace($namespace)
-            ->addStmts(array_unique(array_values($uses)))
+            ->addStmts($this->removeDuplicatedUses($uses))
             ->addStmt($class)
             ->getNode()
         ;
@@ -151,6 +153,20 @@ final class AsyncTableGenerator
         exec($command);
 
         return $generatedTable;
+    }
+
+    protected function removeDuplicatedUses(array $rawUses)
+    {
+        $uses = [];
+        /** @var Node\Stmt\Use_ $use */
+        foreach ($rawUses as $use) {
+            if ($use instanceof Use_) {
+                $use = $use->getNode();
+            }
+
+            $uses[$use->uses[0]->type . '_____' . $use->uses[0]->name->toString() . '_____' . $use->uses[0]->alias] = $use;
+        }
+        return $uses;
     }
 
     protected function createMethod($method, array $params)

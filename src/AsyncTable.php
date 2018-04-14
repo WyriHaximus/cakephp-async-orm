@@ -82,10 +82,7 @@ trait AsyncTable
      */
     private function callSync($function, array $arguments = [])
     {
-        $table = TableRegistry::get(md5($this->tableName), [
-            'className' => $this->tableName,
-            'table' => 'screenshots',
-        ]);
+        $table = TableRegistry::get($this->tableName2);
         if (isset(class_uses($table)[TableRegistryTrait::class])) {
             $table->setRegistry(AsyncTableRegistry::class);
         }

@@ -56,7 +56,7 @@ class AsyncTableRegistry implements PoolUtilizerInterface
         if ($asyncTable instanceof AsyncTableInterface) {
             $asyncTable->setUpAsyncTable(
                 Pool::getInstance(),
-                $table->table(),
+                $table->getRegistryAlias(),
                 App::className($tableName, 'Model/Table', 'Table')
             );
         }

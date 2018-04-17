@@ -166,6 +166,7 @@ final class AsyncTableGenerator
 
             $uses[$use->uses[0]->type . '_____' . $use->uses[0]->name->toString() . '_____' . $use->uses[0]->alias] = $use;
         }
+
         return $uses;
     }
 

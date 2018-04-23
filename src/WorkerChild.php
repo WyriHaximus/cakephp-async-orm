@@ -45,8 +45,8 @@ final class WorkerChild implements ChildInterface
         require CORE_PATH . 'config' . DS . 'bootstrap.php';
         Configure::config('default', new Configure\Engine\PhpConfig());
         Configure::load('app', 'default', false);
-        Cache::config(Configure::consume('Cache'));
-        ConnectionManager::config(Configure::consume('Datasources'));
+        Cache::setConfig(Configure::consume('Cache'));
+        ConnectionManager::setConfig(Configure::consume('Datasources'));
 
         return new self($messenger, $loop);
     }

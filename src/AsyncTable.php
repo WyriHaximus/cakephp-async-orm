@@ -82,7 +82,7 @@ trait AsyncTable
      */
     private function callSync($function, array $arguments = [])
     {
-        $table = TableRegistry::get($this->tableName2);
+        $table = TableRegistry::get($this->tableName);
         if (isset(class_uses($table)[TableRegistryTrait::class])) {
             $table->setRegistry(AsyncTableRegistry::class);
         }

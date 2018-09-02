@@ -10,8 +10,8 @@
     }
   ],
   "require": {
-    "php": "^7.1",
-    "api-clients/cs-fixer-config": "dev-master",
+    "php": "^7.2",
+    "api-clients/cs-fixer-config": "^1.0",
     "cakephp/cakephp": "^3.0.0",
     "doctrine/annotations": "^1.2",
     "friendsofphp/php-cs-fixer": "^2.10",
@@ -37,7 +37,7 @@
   "config": {
     "sort-packages": true,
     "platform": {
-      "php": "7.1.9"
+      "php": "7.2"
     }
   },
   "scripts": {

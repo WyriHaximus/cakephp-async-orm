@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f7141d71633bc37442f5955d3bb29b9",
+    "content-hash": "cbb5bcf5a9ccef04b1658838357354b8",
     "packages": [
         {
             "name": "api-clients/cs-fixer-config",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/cs-fixer-config.git",
-                "reference": "772403e195cd1eddcd3eb6fd15d91723782c5b96"
+                "reference": "fadf5d8c64508f5af241201217a57b6646768cda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/cs-fixer-config/zipball/772403e195cd1eddcd3eb6fd15d91723782c5b96",
-                "reference": "772403e195cd1eddcd3eb6fd15d91723782c5b96",
+                "url": "https://api.github.com/repos/php-api-clients/cs-fixer-config/zipball/fadf5d8c64508f5af241201217a57b6646768cda",
+                "reference": "fadf5d8c64508f5af241201217a57b6646768cda",
                 "shasum": ""
             },
             "require": {
@@ -44,7 +44,7 @@
                 }
             ],
             "description": "friendsofphp/php-cs-fixer config",
-            "time": "2018-03-26T13:47:55+00:00"
+            "time": "2018-09-01T22:35:26+00:00"
         },
         {
             "name": "aura/intl",
@@ -4536,16 +4536,14 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "api-clients/cs-fixer-config": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.1"
+        "php": "^7.2"
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "7.1.9"
+        "php": "7.2"
     }
 }

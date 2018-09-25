@@ -59,11 +59,11 @@ final class WorkerChild implements ChildInterface
     {
         $result = call_user_func_array([
             TableRegistry::get(
-                $payload['table'],
+                $payload['table']/*,
                 [
                     'className' => $payload['className'],
                     'table' => $payload['table'],
-                ]
+                ]*/
             ),
             $payload['function'],
         ], unserialize($payload['arguments']));

@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace WyriHaximus\React\Tests\Cake\Orm;
 
-use Phake;
 use React\EventLoop\LoopInterface;
-use WyriHaximus\React\Cake\Orm\AsyncTable;
 use WyriHaximus\React\Cake\Orm\AsyncTableRegistry;
 use WyriHaximus\React\Tests\Cake\Orm\Annotations\TestTables\AsyncClassAsyncMethodTable;
 
@@ -32,16 +30,16 @@ class AsyncTableRegistryTest extends TestCase
 
     public function testGet()
     {
-        $loop = Phake::mock(LoopInterface::class);
+        $loop = $this->prophesize(LoopInterface::class)->reveal();
         AsyncTableRegistry::init($loop);
         $table = AsyncTableRegistry::get(AsyncClassAsyncMethodTable::class);
-        $this->assertInstanceOf(AsyncTable::class, $table);
+        $this->assertInstanceOf(TestTable::class, $table);
         $this->assertSame($table, AsyncTableRegistry::get(AsyncClassAsyncMethodTable::class));
     }
 
     public function testInfo()
     {
-        $loop = Phake::mock(LoopInterface::class);
+        $loop = $this->prophesize(LoopInterface::class)->reveal();
         AsyncTableRegistry::init($loop);
         $this->assertInternalType('array', AsyncTableRegistry::getInstance()->info());
     }

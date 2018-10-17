@@ -1,8 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace WyriHaximus\React\Cake\Orm;
 
 use Cake\Core\App;
+use Cake\Core\Configure;
+use Cake\ORM\Table;
 use React\EventLoop\LoopInterface;
 use WyriHaximus\React\ChildProcess\Pool\PoolUtilizerInterface;
 
@@ -19,13 +21,13 @@ class AsyncTableRegistry implements PoolUtilizerInterface
     protected static $instance = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected static $reset = false;
 
     /**
      * @param LoopInterface $loop
-     * @param array $config
+     * @param array         $config
      */
     public static function init(LoopInterface $loop, array $config = [])
     {
@@ -33,25 +35,34 @@ class AsyncTableRegistry implements PoolUtilizerInterface
     }
 
     /**
-     * @param $tableName
+     * @param Table $table
      *
      * @return AsyncTable
      */
-    public static function get($tableName)
+    public static function get(Table $table)
     {
-        if (is_array($tableName)) {
-            $tableName = $tableName['class'];
-        }
-        
+        $tableName = get_class($table);
+
         if (isset(static::$tables[$tableName])) {
             return static::$tables[$tableName];
         }
 
-        static::$tables[$tableName] = new AsyncTable(
-            Pool::getInstance(),
-            $tableName,
-            App::className($tableName, 'Model/Table', 'Table')
-        );
+        $asyncTableName = (new AsyncTableGenerator(
+            Configure::read('WyriHaximus.React.Cake.Orm.Cache.AsyncTables')
+        ))->generate($tableName)->getFQCN();
+
+        $asyncTable = new $asyncTableName();
+
+        if ($asyncTable instanceof AsyncTableInterface) {
+            $asyncTable->setUpAsyncTable(
+                Pool::getInstance(),
+                $table->getRegistryAlias(),
+                App::className($tableName, 'Model/Table', 'Table')
+            );
+        }
+
+        static::$tables[$tableName] = $asyncTable;
+
         return static::$tables[$tableName];
     }
 

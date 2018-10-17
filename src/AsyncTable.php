@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace WyriHaximus\React\Cake\Orm;
 
@@ -11,33 +11,34 @@ use React\Promise\PromiseInterface;
 use WyriHaximus\React\Cake\Orm\Annotations\Async;
 use WyriHaximus\React\Cake\Orm\Annotations\Sync;
 
-class AsyncTable
+trait AsyncTable
 {
     /**
      * @var Pool
      */
-    protected $pool;
+    private $pool;
 
     /**
      * @var string
      */
-    protected $tableName;
+    private $tableName;
 
     /**
      * @var AnnotationReader
      */
-    protected $annotationReader;
+    private $annotationReader;
 
     /**
      * @var \ReflectionClass
      */
-    protected $reflectionClass;
+    private $reflectionClass;
 
     /**
-     * @param Pool $pool
+     * @param Pool   $pool
      * @param string $tableName
+     * @param mixed  $tableClass
      */
-    public function __construct(Pool $pool, $tableName, $tableClass)
+    public function setUpAsyncTable(Pool $pool, $tableName, $tableClass)
     {
         $this->pool = $pool;
         $this->tableName = $tableName;
@@ -47,11 +48,15 @@ class AsyncTable
 
     /**
      * @param $function
-     * @param array $arguments
+     * @param  array            $arguments
      * @return PromiseInterface
      */
-    public function __call($function, array $arguments = [])
+    protected function callAsyncOrSync($function, $arguments)
     {
+        if ($this->pool === null) {
+            return (new $this->tableName())->$function(...$arguments);
+        }
+
         if (
             $this->returnsQuery($function) ||
             $this->hasMethodAnnotation($function, Async::class) ||
@@ -72,20 +77,21 @@ class AsyncTable
 
     /**
      * @param $function
-     * @param array $arguments
+     * @param  array            $arguments
      * @return PromiseInterface
      */
-    protected function callSync($function, array $arguments = [])
+    private function callSync($function, array $arguments = [])
     {
         $table = TableRegistry::get($this->tableName);
         if (isset(class_uses($table)[TableRegistryTrait::class])) {
             $table->setRegistry(AsyncTableRegistry::class);
         }
+
         return \React\Promise\resolve(
             call_user_func_array(
                 [
                     $table,
-                    $function
+                    $function,
                 ],
                 $arguments
             )
@@ -94,10 +100,10 @@ class AsyncTable
 
     /**
      * @param $function
-     * @param array $arguments
+     * @param  array            $arguments
      * @return PromiseInterface
      */
-    protected function callAsync($function, array $arguments = [])
+    private function callAsync($function, array $arguments = [])
     {
         $unSerialize = function ($input) {
             if (is_string($input)) {
@@ -106,17 +112,19 @@ class AsyncTable
 
             return $input;
         };
+
         return $this->
             pool->
-            call($this->tableName, $function, $arguments)->
-            then($unSerialize, $unSerialize, $unSerialize);
+            call(get_parent_class($this), $this->tableName, $function, $arguments)->
+            then($unSerialize, $unSerialize, $unSerialize)
+        ;
     }
 
     /**
      * @param $class
      * @return bool
      */
-    protected function hasClassAnnotation($class)
+    private function hasClassAnnotation($class)
     {
         return is_a($this->annotationReader->getClassAnnotation($this->reflectionClass, $class), $class);
     }
@@ -126,9 +134,10 @@ class AsyncTable
      * @param $class
      * @return bool
      */
-    protected function hasMethodAnnotation($method, $class)
+    private function hasMethodAnnotation($method, $class)
     {
         $methodReflection = $this->reflectionClass->getMethod($method);
+
         return is_a($this->annotationReader->getMethodAnnotation($methodReflection, $class), $class);
     }
 
@@ -136,9 +145,10 @@ class AsyncTable
      * @param $method
      * @return bool
      */
-    protected function hasNoMethodAnnotation($method)
+    private function hasNoMethodAnnotation($method)
     {
         $methodReflection = $this->reflectionClass->getMethod($method);
+
         return (
             $this->annotationReader->getMethodAnnotation($methodReflection, Async::class) === null &&
             $this->annotationReader->getMethodAnnotation($methodReflection, Sync::class) === null
@@ -149,7 +159,7 @@ class AsyncTable
      * @param $function
      * @return bool
      */
-    protected function returnsQuery($function)
+    private function returnsQuery($function)
     {
         $docBlockContents = $this->reflectionClass->getMethod($function)->getDocComment();
         if (!is_string($docBlockContents)) {
@@ -170,7 +180,7 @@ class AsyncTable
      * @param $docBlockContents
      * @return DocBlock
      */
-    protected function getDocBlock($docBlockContents)
+    private function getDocBlock($docBlockContents)
     {
         if (class_exists('phpDocumentor\Reflection\DocBlockFactory')) {
             return DocBlockFactory::createInstance()->create($docBlockContents);

@@ -8,21 +8,21 @@
     "packages": [
         {
             "name": "api-clients/cs-fixer-config",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/cs-fixer-config.git",
-                "reference": "fadf5d8c64508f5af241201217a57b6646768cda"
+                "reference": "9d7a6ecd40f32220f8f10d5383596022a8cc9a16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/cs-fixer-config/zipball/fadf5d8c64508f5af241201217a57b6646768cda",
-                "reference": "fadf5d8c64508f5af241201217a57b6646768cda",
+                "url": "https://api.github.com/repos/php-api-clients/cs-fixer-config/zipball/9d7a6ecd40f32220f8f10d5383596022a8cc9a16",
+                "reference": "9d7a6ecd40f32220f8f10d5383596022a8cc9a16",
                 "shasum": ""
             },
             "require": {
                 "friendsofphp/php-cs-fixer": "^2.5",
-                "php": "^7.0"
+                "php": "^7.2"
             },
             "require-dev": {
                 "api-clients/test-utilities": "^4.3"
@@ -44,7 +44,7 @@
                 }
             ],
             "description": "friendsofphp/php-cs-fixer config",
-            "time": "2018-09-01T22:35:26+00:00"
+            "time": "2018-11-21T22:05:53+00:00"
         },
         {
             "name": "aura/intl",

@@ -97,6 +97,17 @@ class Pool implements PoolUtilizerInterface
         return $this->waitForPoolCall($className, $tableName, $function, $arguments);
     }
 
+    public function paginate($tableName, $params, $settings)
+    {
+        return $this->pool->rpc(Factory::rpc('paginate', [
+            'table' => $tableName,
+            'params' => $params,
+            'settings' => $settings,
+        ]))->then(function ($result) {
+            return \React\Promise\resolve($result['result']);
+        });
+    }
+
     /**
      * @inheritDoc
      */

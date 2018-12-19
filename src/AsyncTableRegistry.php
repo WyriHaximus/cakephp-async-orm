@@ -66,6 +66,11 @@ class AsyncTableRegistry implements PoolUtilizerInterface
         return static::$tables[$tableName];
     }
 
+    public static function paginate($tableName, $params, $settings)
+    {
+        return Pool::getInstance()->paginate($tableName, $params, $settings);
+    }
+
     public static function getInstance()
     {
         if (null === self::$instance || self::$reset) {

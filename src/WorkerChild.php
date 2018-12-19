@@ -5,6 +5,7 @@ namespace WyriHaximus\React\Cake\Orm;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
+use Cake\Datasource\Paginator;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use React\EventLoop\LoopInterface;
@@ -30,6 +31,15 @@ final class WorkerChild implements ChildInterface
             $deferred = new Deferred();
             $this->loop->futureTick(function () use ($payload, $deferred) {
                 $this->handleTableCall($payload, $deferred);
+            });
+
+            return $deferred->promise();
+        });
+
+        $this->messenger->registerRpc('paginate', function (Payload $payload) {
+            $deferred = new Deferred();
+            $this->loop->futureTick(function () use ($payload, $deferred) {
+                $this->handlePaginateCall($payload, $deferred);
             });
 
             return $deferred->promise();
@@ -83,5 +93,26 @@ final class WorkerChild implements ChildInterface
         }
 
         $deferred->resolve();
+    }
+
+    /**
+     * @param Payload  $payload
+     * @param Deferred $deferred
+     */
+    protected function handlePaginateCall(Payload $payload, Deferred $deferred)
+    {
+        $object = TableRegistry::get(
+            $payload['table']/*,
+                [
+                    'className' => $payload['className'],
+                    'table' => $payload['table'],
+                ]*/
+        );
+        $paginator = new Paginator();
+
+        return $deferred->resolve([
+            'items' => $paginator->paginate($object, $payload['params'], $payload['settings'])->toArray(),
+            'pagingParams' => $paginator->getPagingParams(),
+        ]);
     }
 }

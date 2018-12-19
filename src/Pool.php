@@ -99,11 +99,37 @@ class Pool implements PoolUtilizerInterface
 
     public function paginate($tableName, $params, $settings)
     {
+        if ($this->pool instanceof PoolInterface) {
+            return $this->paginateCall($tableName, $params, $settings);
+        }
+
+        return $this->waitForPaginateCall($tableName, $params, $settings);
+    }
+
+    private function paginateCall($tableName, $params, $settings)
+    {
         return $this->pool->rpc(Factory::rpc('paginate', [
             'table' => $tableName,
             'params' => $params,
             'settings' => $settings,
         ]));
+    }
+
+    protected function waitForPaginateCall($tableName, $params, $settings)
+    {
+        $deferred = new Deferred();
+
+        $this->loop->addPeriodicTimer(
+            0.1,
+            function (TimerInterface $timer) use ($deferred, $tableName, $params, $settings) {
+                if ($this->pool instanceof PoolInterface) {
+                    $timer->cancel();
+                    $deferred->resolve($this->paginateCall($tableName, $params, $settings));
+                }
+            }
+        );
+
+        return $deferred->promise();
     }
 
     /**

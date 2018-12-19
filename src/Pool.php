@@ -103,9 +103,7 @@ class Pool implements PoolUtilizerInterface
             'table' => $tableName,
             'params' => $params,
             'settings' => $settings,
-        ]))->then(function ($result) {
-            return \React\Promise\resolve($result['result']);
-        });
+        ]));
     }
 
     /**

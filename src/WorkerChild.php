@@ -5,14 +5,17 @@ namespace WyriHaximus\React\Cake\Orm;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
+use Cake\Datasource\Exception\PageOutOfBoundsException;
 use Cake\Datasource\Paginator;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use React\EventLoop\LoopInterface;
 use React\Promise\Deferred;
+use function React\Promise\resolve;
 use WyriHaximus\React\ChildProcess\Messenger\ChildInterface;
 use WyriHaximus\React\ChildProcess\Messenger\Messages\Payload;
 use WyriHaximus\React\ChildProcess\Messenger\Messenger;
+use function WyriHaximus\React\futurePromise;
 
 final class WorkerChild implements ChildInterface
 {
@@ -37,12 +40,9 @@ final class WorkerChild implements ChildInterface
         });
 
         $this->messenger->registerRpc('paginate', function (Payload $payload) {
-            $deferred = new Deferred();
-            $this->loop->futureTick(function () use ($payload, $deferred) {
-                $this->handlePaginateCall($payload, $deferred);
+            return futurePromise($this->loop, $payload)->then(function ($payload) {
+                return $this->handlePaginateCall($payload);
             });
-
-            return $deferred->promise();
         });
     }
 
@@ -99,7 +99,7 @@ final class WorkerChild implements ChildInterface
      * @param Payload  $payload
      * @param Deferred $deferred
      */
-    protected function handlePaginateCall(Payload $payload, Deferred $deferred)
+    protected function handlePaginateCall(Payload $payload)
     {
         $object = TableRegistry::get(
             $payload['table']/*,
@@ -110,8 +110,17 @@ final class WorkerChild implements ChildInterface
         );
         $paginator = new Paginator();
 
-        return $deferred->resolve([
-            'items' => $paginator->paginate($object, $payload['params'], $payload['settings'])->toArray(),
+        try {
+            $items = $paginator->paginate($object, $payload['params'], $payload['settings'])->toArray();
+            $eos = false;
+        } catch (PageOutOfBoundsException $pageOutOfBoundsException) {
+            $items = [];
+            $eos = true;
+        }
+
+        return resolve([
+            'items' => $items,
+            'eos' => $eos,
             'pagingParams' => $paginator->getPagingParams(),
         ]);
     }

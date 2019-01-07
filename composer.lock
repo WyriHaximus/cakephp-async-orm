@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0104c8ec9c4d049d00a90a842048f413",
+    "content-hash": "710b544e6d30dbfeb5cb8c18a24bb7dc",
     "packages": [
         {
             "name": "api-clients/cs-fixer-config",
@@ -94,16 +94,16 @@
         },
         {
             "name": "cakephp/cakephp",
-            "version": "3.7.1",
+            "version": "3.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "1f6fd21ca27ffc88fa88506a400b94a809e29254"
+                "reference": "eae26792654fece99bb121420e179f0a0efcb2ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/1f6fd21ca27ffc88fa88506a400b94a809e29254",
-                "reference": "1f6fd21ca27ffc88fa88506a400b94a809e29254",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/eae26792654fece99bb121420e179f0a0efcb2ae",
+                "reference": "eae26792654fece99bb121420e179f0a0efcb2ae",
                 "shasum": ""
             },
             "require": {
@@ -178,7 +178,7 @@
                 "rapid-development",
                 "validation"
             ],
-            "time": "2018-12-18T02:39:37+00:00"
+            "time": "2019-01-04T03:02:35+00:00"
         },
         {
             "name": "cakephp/chronos",

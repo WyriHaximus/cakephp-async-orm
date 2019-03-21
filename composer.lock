@@ -1255,16 +1255,16 @@
         },
         {
             "name": "react/child-process",
-            "version": "v0.6.0",
+            "version": "v0.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/child-process.git",
-                "reference": "1106c24fb121683d0aedffc85fa1c9f3a46dce56"
+                "reference": "6895afa583d51dc10a4b9e93cd3bce17b3b77ac3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/child-process/zipball/1106c24fb121683d0aedffc85fa1c9f3a46dce56",
-                "reference": "1106c24fb121683d0aedffc85fa1c9f3a46dce56",
+                "url": "https://api.github.com/repos/reactphp/child-process/zipball/6895afa583d51dc10a4b9e93cd3bce17b3b77ac3",
+                "reference": "6895afa583d51dc10a4b9e93cd3bce17b3b77ac3",
                 "shasum": ""
             },
             "require": {
@@ -1294,7 +1294,7 @@
                 "process",
                 "reactphp"
             ],
-            "time": "2019-01-14T15:54:50+00:00"
+            "time": "2019-02-15T13:48:16+00:00"
         },
         {
             "name": "react/dns",
@@ -2700,16 +2700,16 @@
         },
         {
             "name": "wyrihaximus/react-child-process-messenger",
-            "version": "2.9.0",
+            "version": "2.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/reactphp-child-process-messenger.git",
-                "reference": "4746eefa52d0142624f48f639296cb80dbbfa347"
+                "reference": "69005749c72282d9c18ca19c425e79f8e454d69e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/reactphp-child-process-messenger/zipball/4746eefa52d0142624f48f639296cb80dbbfa347",
-                "reference": "4746eefa52d0142624f48f639296cb80dbbfa347",
+                "url": "https://api.github.com/repos/WyriHaximus/reactphp-child-process-messenger/zipball/69005749c72282d9c18ca19c425e79f8e454d69e",
+                "reference": "69005749c72282d9c18ca19c425e79f8e454d69e",
                 "shasum": ""
             },
             "require": {
@@ -2753,25 +2753,26 @@
                 }
             ],
             "description": "Messenger decorator for react/child-process",
-            "time": "2019-01-17T07:26:56+00:00"
+            "time": "2019-03-20T21:51:25+00:00"
         },
         {
             "name": "wyrihaximus/react-child-process-pool",
-            "version": "1.5.0",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/reactphp-child-process-pool.git",
-                "reference": "b73beffe873edda6b2e29ee6c66c2b89efc1666c"
+                "reference": "d61e27af86e76e2e1045a262a2f4ab43929e521e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/reactphp-child-process-pool/zipball/b73beffe873edda6b2e29ee6c66c2b89efc1666c",
-                "reference": "b73beffe873edda6b2e29ee6c66c2b89efc1666c",
+                "url": "https://api.github.com/repos/WyriHaximus/reactphp-child-process-pool/zipball/d61e27af86e76e2e1045a262a2f4ab43929e521e",
+                "reference": "d61e27af86e76e2e1045a262a2f4ab43929e521e",
                 "shasum": ""
             },
             "require": {
                 "evenement/evenement": "^3.0 || ^2.0",
                 "php": "^7.0 || ^5.4",
+                "react/event-loop": "^1.1",
                 "wyrihaximus/cpu-core-detector": "^1.0.2",
                 "wyrihaximus/file-descriptors": "^1.0 || ^0.1",
                 "wyrihaximus/react-child-process-messenger": "^2.9",
@@ -2807,7 +2808,7 @@
                 }
             ],
             "description": "Pool wyrihaximus/react-child-process-messenger processes",
-            "time": "2019-01-28T18:11:59+00:00"
+            "time": "2019-03-20T21:11:00+00:00"
         },
         {
             "name": "wyrihaximus/react-child-process-promise",
